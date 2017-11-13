@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <TextView
+        android:id="@+id/dialog_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/dialog_bg_white_content_top_corner"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_10"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_16" />
+
+    <RelativeLayout
+        android:id="@+id/dialog_content_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_title_tv"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/dialog_bg_white_content_top_corner">
+
+        <FrameLayout
+            android:id="@+id/dialog_content_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/dialog_message_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_30"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dialog_middle_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px_1"
+        android:layout_below="@id/dialog_content_rl"
+        android:background="@color/lib_ba_blue_line" />
+
+    <com.babase.lib.widget.dialog.BaDialogButton
+        android:id="@+id/dialog_pdbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dialog_middle_line_view"
+        android:background="@drawable/dialog_bg_white_content_bottom_corner" />
+</RelativeLayout>

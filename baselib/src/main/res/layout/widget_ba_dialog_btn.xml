@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/puc_dialog_negative_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="@dimen/dp_15"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_16" />
+
+    <View
+        android:id="@+id/puc_dialog_middle_line"
+        android:layout_width="@dimen/px_1"
+        android:layout_height="match_parent"
+        android:background="@color/lib_ba_blue_line" />
+
+    <TextView
+        android:id="@+id/puc_dialog_positive_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="@dimen/dp_15"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_16" />
+</LinearLayout>

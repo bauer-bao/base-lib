@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 白色-->
+    <color name="lib_ba_white">#FFFFFFFF</color>
+    <!-- 白色 10%透明-->
+    <color name="lib_ba_white_10">#e6ffffff</color>
+    <!-- 白色 20%透明-->
+    <color name="lib_ba_white_20">#ccffffff</color>
+    <!-- 白色 50%透明-->
+    <color name="lib_ba_white_50">#80FFFFFF</color>
+    <!-- 白色 80%透明-->
+    <color name="lib_ba_white_80">#33FFFFFF</color>
+    <!-- 白色 90%透明-->
+    <color name="lib_ba_white_90">#1aFFFFFF</color>
+    <!-- 全透明 -->
+    <color name="lib_ba_transparent">#00000000</color>
+    <!-- 黑色-->
+    <color name="lib_ba_black">#ff000000</color>
+    <!--黑色20%透明-->
+    <color name="lib_ba_black_20">#cc000000</color>
+    <!--黑色，30%透明-->
+    <color name="lib_ba_black_30">#b3031121</color>
+    <!--黑色，40%透明-->
+    <color name="lib_ba_black_40">#99000000</color>
+    <!--黑色，50%透明-->
+    <color name="lib_ba_gray_dark_50">#80383838</color>
+    <!--黑色60透明度-->
+    <color name="lib_ba_black_60">#66000000</color>
+    <!--黑色，80%透明，toast-->
+    <color name="lib_ba_black_80">#33000000</color>
+    <!--灰色-->
+    <color name="lib_ba_gray">#666666</color>
+    <!--库默认背景色-->
+    <color name="lib_ba_background_light">#f6f9fd</color>
+    <!--线-->
+    <color name="lib_ba_blue_line">#d4dfec</color>
+</resources>
