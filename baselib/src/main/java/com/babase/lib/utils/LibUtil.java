@@ -312,7 +312,8 @@ public class LibUtil {
 
             int uid = appInfo.uid;
 
-            Class appOpsClass = null; /* Context.APP_OPS_MANAGER */
+            /* Context.APP_OPS_MANAGER */
+            Class appOpsClass = null;
 
             try {
                 appOpsClass = Class.forName(AppOpsManager.class.getName());

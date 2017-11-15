@@ -99,13 +99,6 @@
 }
 # 如果配置了GlideModule，需要加后面的代码  -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
-# fastjson 混淆
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** { *; }
--keepclassmembers class * {
-    public <methods>;
-}
-
 # 友盟
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);

@@ -195,6 +195,35 @@ public class GlideUtil {
     }
 
     /**
+     * 加载url，显示圆形图片，带文字
+     *
+     * @param context
+     * @param url
+     * @param imageView
+     */
+    public static void loadCircle(Context context, String url, boolean hasText, GlideCircleTransform glideCircleTransform, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                //skipMemoryCache必须和diskCacheStrategy一起用，才可以跳过缓存
+                .skipMemoryCache(hasText)
+                //默认使用RESULT
+                .diskCacheStrategy(hasText ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESULT)
+                .bitmapTransform(glideCircleTransform)
+                .into(imageView);
+    }
+
+    /**
+     * 加载url，显示圆形图片，不带文字
+     *
+     * @param context
+     * @param url
+     * @param imageView
+     */
+    public static void loadCircle(Context context, String url, GlideCircleTransform glideCircleTransform, ImageView imageView) {
+        loadCircle(context, url, false, glideCircleTransform, imageView);
+    }
+
+    /**
      * 加载url，获取bitmap，设置监听
      *
      * @param context

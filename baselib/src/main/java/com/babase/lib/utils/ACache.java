@@ -7,9 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -34,8 +31,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-
-import static com.alibaba.fastjson.JSON.parseObject;
 
 /**
  * @author Michael Yang（www.yangfuhai.com） update at 2013.08.07
@@ -226,88 +221,6 @@ public class ACache {
             if (removeFile) {
                 remove(key);
             }
-        }
-    }
-
-    // =======================================
-    // ============= JSONObject 数据 读写 ==============
-    // =======================================
-
-    /**
-     * 保存 JSONObject数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的JSON数据
-     */
-    public void put(String key, JSONObject value) {
-        put(key, value.toString());
-    }
-
-    /**
-     * 保存 JSONObject数据 到 缓存中
-     *
-     * @param key      保存的key
-     * @param value    保存的JSONObject数据
-     * @param saveTime 保存的时间，单位：秒
-     */
-    public void put(String key, JSONObject value, int saveTime) {
-        put(key, value.toString(), saveTime);
-    }
-
-    /**
-     * 读取JSONObject数据
-     *
-     * @param key
-     * @return JSONObject数据
-     */
-    public JSONObject getAsJSONObject(String key) {
-        String jsonStr = getAsString(key);
-        try {
-            return parseObject(jsonStr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // =======================================
-    // ============ JSONArray 数据 读写 =============
-    // =======================================
-
-    /**
-     * 保存 JSONArray数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的JSONArray数据
-     */
-    public void put(String key, JSONArray value) {
-        put(key, value.toString());
-    }
-
-    /**
-     * 保存 JSONArray数据 到 缓存中
-     *
-     * @param key      保存的key
-     * @param value    保存的JSONArray数据
-     * @param saveTime 保存的时间，单位：秒
-     */
-    public void put(String key, JSONArray value, int saveTime) {
-        put(key, value.toString(), saveTime);
-    }
-
-    /**
-     * 读取JSONArray数据
-     *
-     * @param key
-     * @return JSONArray数据
-     */
-    public JSONArray getAsJSONArray(String key) {
-        String jsonStr = getAsString(key);
-        try {
-            return JSONArray.parseArray(jsonStr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
