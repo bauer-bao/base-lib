@@ -105,9 +105,7 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
      */
     protected void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
-        if (right != null) {
-            setCompoundDrawables(getCompoundDrawablesRelative()[0], getCompoundDrawablesRelative()[1], right, getCompoundDrawablesRelative()[3]);
-        }
+        setCompoundDrawablesRelative(getCompoundDrawablesRelative()[0], getCompoundDrawablesRelative()[1], right, getCompoundDrawablesRelative()[3]);
     }
 
     /**

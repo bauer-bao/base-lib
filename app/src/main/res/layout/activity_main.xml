@@ -12,6 +12,12 @@
         android:layout_height="wrap_content"
         android:text="Hello BaseLib" />
 
+    <com.babase.lib.widget.EditTextWithClear
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="test"
+        android:drawableEnd="@drawable/toast_bg"/>
+
     <ImageView
         android:id="@+id/text_iv"
         android:layout_width="100dp"
