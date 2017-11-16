@@ -36,16 +36,18 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
 
     private void init(Context context) {
         // 获取EditText的DrawableRight,假如没有设置我们就使用默认的图片,2是获得右边的图片  顺序是左上右下（0,1,2,3,）
-        mClearDrawable = getCompoundDrawables()[2];
+        mClearDrawable = getCompoundDrawablesRelative()[2];
 //        if (mClearDrawable == null) {
 //            // throw new
 //            // NullPointerException("You can add drawableRight attribute in XML");
 //            mClearDrawable = ContextCompat.getDrawable(context, R.drawable.edt_clear);
 //        }
 
-        //37是3.0版本之前的图片的宽高
-        int clearBmpWidth = ScreenUtil.dip2px(context, 15);
-        mClearDrawable.setBounds(0, 0, clearBmpWidth, clearBmpWidth);
+        if (mClearDrawable != null) {
+            //37是3.0版本之前的图片的宽高
+            int clearBmpWidth = ScreenUtil.dip2px(context, 15);
+            mClearDrawable.setBounds(0, 0, clearBmpWidth, clearBmpWidth);
+        }
         // 默认设置隐藏图标
         setClearIconVisible(false);
         // 设置焦点改变的监听
@@ -70,7 +72,7 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (getCompoundDrawables()[2] != null) {
+            if (getCompoundDrawablesRelative()[2] != null) {
                 boolean touchable = event.getX() > (getWidth() - getTotalPaddingRight()) && (event.getX() < ((getWidth() - getPaddingRight())));
                 if (touchable) {
                     this.setText("");
@@ -103,7 +105,9 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
      */
     protected void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
-        setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
+        if (right != null) {
+            setCompoundDrawables(getCompoundDrawablesRelative()[0], getCompoundDrawablesRelative()[1], right, getCompoundDrawablesRelative()[3]);
+        }
     }
 
     /**
