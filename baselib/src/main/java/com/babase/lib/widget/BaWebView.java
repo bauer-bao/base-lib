@@ -118,7 +118,9 @@ public class BaWebView extends WebView {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 Logger.d("load error------> ");
                 loadFailed = true;
-                myWebviewImp.loadFailed();
+                if (myWebviewImp != null) {
+                    myWebviewImp.loadFailed();
+                }
             }
 
             @Override

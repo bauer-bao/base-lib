@@ -169,12 +169,15 @@ public class BaToast implements Handler.Callback {
      * @param time
      */
     private void setTimeAndShow(int time) {
-        if (time < 1000) {
-            //至少1000ms以上
-            time = 1000;
+        //不为空，并且没有父控件
+        if (contentView != null && contentView.getParent() == null) {
+            if (time < 1000) {
+                //至少1000ms以上
+                time = 1000;
+            }
+            show();
+            handler.sendEmptyMessageDelayed(DISMISS_TOAST, time);
         }
-        show();
-        handler.sendEmptyMessageDelayed(DISMISS_TOAST, time);
     }
 
     /**
