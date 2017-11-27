@@ -108,6 +108,20 @@ public class AppManager {
     }
 
     /**
+     * 结束指定类名的Activity
+     *
+     * @param cls 建议使用包名+类名的形式
+     */
+    public void killActivity(String cls) {
+        for (Activity activity : mActivityStack) {
+            if (activity.getComponentName().getClassName().contains(cls)) {
+                killActivity(activity);
+                break;
+            }
+        }
+    }
+
+    /**
      * 结束所有Activity
      */
     private void killAllActivity() {

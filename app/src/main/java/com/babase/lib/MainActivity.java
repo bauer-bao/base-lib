@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.babase.lib.utils.AppManager;
 import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.widget.BaToast;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppManager.getInstance().addActivity(this);
 
         ImageView imageView = findViewById(R.id.text_iv);
 
@@ -27,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                baToast.setTextAndShow("test");
+//                baToast.setTextAndShow("test");
+                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
             }
         });
     }
