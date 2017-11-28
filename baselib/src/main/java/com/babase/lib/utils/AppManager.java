@@ -114,7 +114,8 @@ public class AppManager {
      */
     public void killActivity(String cls) {
         for (Activity activity : mActivityStack) {
-            if (activity.getComponentName().getClassName().contains(cls)) {
+            //classname：是包含包名，shortclassname：只有activity名
+            if (activity.getComponentName().getClassName().endsWith(cls)) {
                 killActivity(activity);
                 break;
             }

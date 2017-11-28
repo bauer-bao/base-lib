@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.babase.lib.utils.AppManager;
 import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
+import com.babase.lib.utils.Logger;
 import com.babase.lib.widget.BaToast;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AppManager.getInstance().addActivity(this);
+        Logger.setDebug(true);
 
         ImageView imageView = findViewById(R.id.text_iv);
 
