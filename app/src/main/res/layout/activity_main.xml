@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Hello BaseLib" />
 
-    <com.babase.lib.widget.EditTextWithClear
+    <com.babase.lib.widget.BaEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="test"

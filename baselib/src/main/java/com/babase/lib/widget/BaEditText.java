@@ -12,7 +12,7 @@ import android.view.View.OnFocusChangeListener;
 
 import com.babase.lib.utils.ScreenUtil;
 
-public class EditTextWithClear extends AppCompatEditText implements OnFocusChangeListener, TextWatcher {
+public class BaEditText extends AppCompatEditText implements OnFocusChangeListener, TextWatcher {
     /**
      * 删除按钮的引用
      */
@@ -20,16 +20,16 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
     private boolean hasFoucs;
     private OnFocusChangedCallback focusCallback;
 
-    public EditTextWithClear(Context context) {
+    public BaEditText(Context context) {
         this(context, null);
     }
 
-    public EditTextWithClear(Context context, AttributeSet attrs) {
+    public BaEditText(Context context, AttributeSet attrs) {
         // 这里构造方法也很重要，不加这个很多属性不能再XML里面定义
         this(context, attrs, android.R.attr.editTextStyle);
     }
 
-    public EditTextWithClear(Context context, AttributeSet attrs, int defStyle) {
+    public BaEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -37,11 +37,6 @@ public class EditTextWithClear extends AppCompatEditText implements OnFocusChang
     private void init(Context context) {
         // 获取EditText的DrawableRight,假如没有设置我们就使用默认的图片,2是获得右边的图片  顺序是左上右下（0,1,2,3,）
         mClearDrawable = getCompoundDrawablesRelative()[2];
-//        if (mClearDrawable == null) {
-//            // throw new
-//            // NullPointerException("You can add drawableRight attribute in XML");
-//            mClearDrawable = ContextCompat.getDrawable(context, R.drawable.edt_clear);
-//        }
 
         if (mClearDrawable != null) {
             //37是3.0版本之前的图片的宽高
