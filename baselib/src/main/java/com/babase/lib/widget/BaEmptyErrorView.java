@@ -19,12 +19,17 @@ import com.babase.lib.R;
 
 public class BaEmptyErrorView extends LinearLayout {
     private ImageView widgetEmptyErrorIv;
-    private TextView widgetEmptyErrorTv;
+    private TextView widgetEmptyErrorTv, widgetEmptyErrorBtn;
     private ConstraintLayout widgetEmptyErrorView;
 
     private Context context;
 
     private OnSceenClickListener clickListener;
+
+    /**
+     * 默认不显示按钮
+     */
+    private boolean showBtn = false;
 
     public BaEmptyErrorView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -42,9 +47,16 @@ public class BaEmptyErrorView extends LinearLayout {
         inflate(context, R.layout.widget_ba_empty_error_view, this);
         widgetEmptyErrorIv = findViewById(R.id.widget_empty_error_iv);
         widgetEmptyErrorTv = findViewById(R.id.widget_empty_error_tv);
+        widgetEmptyErrorBtn = findViewById(R.id.widget_empty_error_btn);
         widgetEmptyErrorView = findViewById(R.id.widget_empty_error_view);
 
         widgetEmptyErrorView.setOnClickListener(view -> {
+            if (clickListener != null) {
+                clickListener.reload();
+            }
+        });
+
+        widgetEmptyErrorBtn.setOnClickListener(view -> {
             if (clickListener != null) {
                 clickListener.reload();
             }
@@ -53,6 +65,16 @@ public class BaEmptyErrorView extends LinearLayout {
 
     public void setClickListener(OnSceenClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    /**
+     * 是否显示按钮
+     *
+     * @param showBtn
+     */
+    public void showBtn(boolean showBtn) {
+        this.showBtn = showBtn;
+        widgetEmptyErrorBtn.setVisibility(showBtn ? VISIBLE : GONE);
     }
 
     /**
@@ -75,6 +97,19 @@ public class BaEmptyErrorView extends LinearLayout {
     public void initData(String messageStr, @DrawableRes int drawableId) {
         widgetEmptyErrorTv.setText(messageStr);
         widgetEmptyErrorIv.setImageResource(drawableId);
+    }
+
+    /**
+     * 设置按钮颜色，文字，背景色
+     *
+     * @param btnMsg
+     * @param btnTxtColor
+     * @param btnBackground
+     */
+    public void setBtn(String btnMsg, @ColorRes int btnTxtColor, @DrawableRes int btnBackground) {
+        widgetEmptyErrorBtn.setText(btnMsg);
+        widgetEmptyErrorBtn.setTextColor(ContextCompat.getColor(context, btnTxtColor));
+        widgetEmptyErrorBtn.setBackgroundResource(btnBackground);
     }
 
     /**
