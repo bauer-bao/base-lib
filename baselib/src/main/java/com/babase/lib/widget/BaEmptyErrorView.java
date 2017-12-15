@@ -51,7 +51,7 @@ public class BaEmptyErrorView extends LinearLayout {
         widgetEmptyErrorView = findViewById(R.id.widget_empty_error_view);
 
         widgetEmptyErrorView.setOnClickListener(view -> {
-            if (clickListener != null) {
+            if (clickListener != null && !showBtn) {
                 clickListener.reload();
             }
         });

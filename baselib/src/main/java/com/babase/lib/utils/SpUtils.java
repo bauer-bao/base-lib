@@ -3,6 +3,8 @@ package com.babase.lib.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Map;
+
 public class SpUtils {
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
@@ -138,6 +140,18 @@ public class SpUtils {
         SharedPreferences.Editor editor = sp.edit();
         editor.remove(key);
         editor.apply();
+    }
+
+    /**
+     * 获取sp中全部的键值对
+     *
+     * @param context
+     * @param spName
+     * @return
+     */
+    public static Map<String, ?> remove(Context context, String spName) {
+        SharedPreferences sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
+        return sp.getAll();
     }
 
     /**

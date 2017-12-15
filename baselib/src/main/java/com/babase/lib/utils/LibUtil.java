@@ -11,6 +11,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -36,6 +37,21 @@ import java.util.regex.Pattern;
  */
 
 public class LibUtil {
+    /**
+     * 文件的类型
+     */
+    public static final int FILE_TYPE_COMMON_FILE = 0;
+    public static final int FILE_TYPE_AUDIO = 1;
+    public static final int FILE_TYPE_VIDEO = 2;
+    public static final int FILE_TYPE_IMAGE = 3;
+    public static final int FILE_TYPE_GIF = 4;
+    public static final int FILE_TYPE_TEXT = 5;
+    public static final int FILE_TYPE_WORD = 6;
+    public static final int FILE_TYPE_EXCEL = 7;
+    public static final int FILE_TYPE_PPT = 8;
+    public static final int FILE_TYPE_PDF = 9;
+    public static final int FILE_TYPE_ZIP = 10;
+    public static final int FILE_TYPE_APK = 11;
 
     /**
      * 收集设备参数信息
@@ -122,7 +138,7 @@ public class LibUtil {
      * 根据之前的日期转换成更加人性化的日期
      *
      * @param compareDate 需要转化的日期，yyyy-mm-dd hh:mm:ss
-     * @return 返回比较日期和当前日期的相差天数
+     * @return 返回比较日期和当前日期的相差天数，以前的返回正数，以后的返回负数
      */
     public static int getDaysBeteenDates(String compareDate) {
         String date = compareDate.substring(0, 10);
@@ -327,6 +343,176 @@ public class LibUtil {
             }
         } else {
             return false;
+        }
+    }
+
+    /**
+     * 获取字符串的长度，包括中文字符，中文算2个字符
+     *
+     * @param cs
+     * @return
+     */
+    public static int getSequenceLength(CharSequence cs) {
+        int length = 0;
+        if (cs == null || cs.length() == 0) {
+            return length;
+        }
+        char c;
+        for (int i = 0; i < cs.length(); i++) {
+            c = cs.charAt(i);
+            if (isChinese(c)) {
+                length += 2;
+            } else {
+                length++;
+            }
+        }
+        return length;
+    }
+
+    /**
+     * 字符是否是中文
+     *
+     * @param c
+     * @return
+     */
+    public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+    }
+
+    /**
+     * 判断手机号格式是否正确
+     * 1.11位数字
+     * 2.符合中国的手机号
+     *
+     * @param mobileStr
+     * @return
+     */
+    public static boolean checkChineseMobile(String mobileStr) {
+        final String patternRule = "^1(3|5|7|8|4)\\d{9}";
+        final String mobile = mobileStr.replace(" ", "");
+        Pattern p = Pattern.compile(patternRule);
+        Matcher matcher = p.matcher(mobile);
+        return mobile.length() == 11 && matcher.matches();
+    }
+
+    /**
+     * 格式化手机号，xxx xxxx xxxx的形式
+     *
+     * @param s
+     * @return
+     */
+    public static StringBuilder formateMobileNumber(CharSequence s) {
+        StringBuilder sb = new StringBuilder();
+        //添加空格
+        for (int i = 0; i < s.length(); i++) {
+            if (i != 3 && i != 8 && s.charAt(i) == ' ') {
+                continue;
+            } else {
+                sb.append(s.charAt(i));
+                if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
+                    sb.insert(sb.length() - 1, ' ');
+                }
+            }
+        }
+        return sb;
+    }
+
+    /**
+     * 为了格式化手机号，需要更新输入光标的位置
+     *
+     * @param start
+     * @param before
+     * @param sb
+     * @return
+     */
+    public static int updateSelectionIndex(int start, int before, StringBuilder sb) {
+        int index = start + 1;
+        if (TextUtils.isEmpty(sb)) {
+            //如果输入为空，则直接为0
+            index = 0;
+        } else if (start < sb.length()) {
+            //如果改变之后，start还在sb范围内
+            if (sb.charAt(start) == ' ') {
+                if (before == 0) {
+                    index++;
+                } else {
+                    index--;
+                }
+            } else {
+                if (before == 1) {
+                    index--;
+                }
+            }
+        } else {
+            //start超出了sb的范围，说明index也超过了，那么重新修改index
+            index = sb.length();
+        }
+        return index;
+    }
+
+    /**
+     * 根据后缀获取文件类型
+     *
+     * @param fileName
+     * @return
+     */
+    public static int getFileType(String fileName) {
+        if (fileName.toLowerCase().endsWith(".3gp")
+                || fileName.toLowerCase().endsWith(".asf")
+                || fileName.toLowerCase().endsWith(".avi")
+                || fileName.toLowerCase().endsWith(".m4v")
+                || fileName.toLowerCase().endsWith(".mov")
+                || fileName.toLowerCase().endsWith(".mp4")
+                || fileName.toLowerCase().endsWith(".mpeg")
+                || fileName.toLowerCase().endsWith(".mpg")
+                || fileName.toLowerCase().endsWith(".mpg4")
+                || fileName.toLowerCase().endsWith(".rmvb")
+                || fileName.toLowerCase().endsWith(".wmv")) {
+            return FILE_TYPE_VIDEO;
+        } else if (fileName.toLowerCase().endsWith(".m4a")
+                || fileName.toLowerCase().endsWith(".m4b")
+                || fileName.toLowerCase().endsWith(".m4p")
+                || fileName.toLowerCase().endsWith(".mp2")
+                || fileName.toLowerCase().endsWith(".mp3")
+                || fileName.toLowerCase().endsWith(".mpga")
+                || fileName.toLowerCase().endsWith(".ogg")
+                || fileName.toLowerCase().endsWith(".wav")
+                || fileName.toLowerCase().endsWith(".wma")) {
+            return FILE_TYPE_AUDIO;
+        } else if (fileName.toLowerCase().endsWith(".apk")) {
+            return FILE_TYPE_APK;
+        } else if (fileName.toLowerCase().endsWith(".txt")) {
+            return FILE_TYPE_TEXT;
+        } else if (fileName.toLowerCase().endsWith(".pdf")) {
+            return FILE_TYPE_PDF;
+        } else if (fileName.toLowerCase().endsWith(".doc")
+                || fileName.toLowerCase().endsWith(".docx")) {
+            return FILE_TYPE_WORD;
+        } else if (fileName.toLowerCase().endsWith(".xls")
+                || fileName.toLowerCase().endsWith(".xlsx")) {
+            return FILE_TYPE_EXCEL;
+        } else if (fileName.toLowerCase().endsWith(".pps")
+                || fileName.toLowerCase().endsWith(".ppt")
+                || fileName.toLowerCase().endsWith(".pptx")) {
+            return FILE_TYPE_PPT;
+        } else if (fileName.toLowerCase().endsWith(".gif")) {
+            return FILE_TYPE_GIF;
+        } else if (fileName.toLowerCase().endsWith(".jpeg")
+                || fileName.toLowerCase().endsWith(".jpg")
+                || fileName.toLowerCase().endsWith(".png")) {
+            return FILE_TYPE_IMAGE;
+        } else if (fileName.toLowerCase().endsWith(".tgz")
+                || fileName.toLowerCase().endsWith(".zip")
+                || fileName.toLowerCase().endsWith(".z")) {
+            return FILE_TYPE_ZIP;
+        } else {
+            return FILE_TYPE_COMMON_FILE;
         }
     }
 }
