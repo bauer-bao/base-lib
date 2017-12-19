@@ -10,6 +10,7 @@ import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.utils.Logger;
 import com.babase.lib.widget.BaToast;
+import com.babase.lib.widget.dialog.BaProgressDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,9 +32,26 @@ public class MainActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showAcowoProgressDialog();
 //                baToast.setTextAndShow("test");
-                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
+//                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
             }
         });
+    }
+
+
+    /**
+     * show pwProgressDialog
+     */
+    protected void showAcowoProgressDialog() {
+        BaProgressDialog acowoProgressDialog = new BaProgressDialog(this)
+                .setBaProgressDialogBgResId(R.drawable.solid_toast_bg)
+//                    .setBaProgressDialogSize(ScreenUtil.getScreenWidth(this), ScreenUtil.getScreenHeight(this))
+                .baProgressDialogCreate();
+        if (null != acowoProgressDialog) {
+            //更新message
+            acowoProgressDialog.setBaProgressDialogMessage("loading llhlj");
+            acowoProgressDialog.baProgressDialogShow();
+        }
     }
 }
