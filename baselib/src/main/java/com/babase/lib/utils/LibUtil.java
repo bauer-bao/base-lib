@@ -515,4 +515,26 @@ public class LibUtil {
             return FILE_TYPE_COMMON_FILE;
         }
     }
+
+    /**
+     * 获取第一个单词
+     * <p>
+     * 如果是字母，则返回大写字母
+     * 如果是特殊字符，用#代替
+     *
+     * @param word
+     * @return
+     */
+    public static String getIndexLetter(String word) {
+        char firstLetter = word.charAt(0);
+        //大写字母||小写字母
+        if (firstLetter >= 65 && firstLetter <= 90 ||
+                firstLetter >= 97 && firstLetter <= 122) {
+            //转成大写
+            return String.valueOf(firstLetter).toUpperCase();
+        } else {
+            //其他都返回#
+            return "#";
+        }
+    }
 }

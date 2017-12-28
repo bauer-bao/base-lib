@@ -10,8 +10,9 @@ import com.babase.lib.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.signature.StringSignature;
+import com.bumptech.glide.signature.ObjectKey;
 
 import java.util.concurrent.ExecutionException;
 
@@ -22,12 +23,21 @@ import java.util.concurrent.ExecutionException;
  * @author by bauer_bao on 16/8/2.
  */
 public class GlideUtil {
-    private static @DrawableRes
-    int placeholderDrawableId, errorDrawableId;
+    @DrawableRes
+    private static int placeholderDrawableId, errorDrawableId;
+
+    private static RequestOptions requestOptions;
 
     public static void setPlaceholderDrawableId(int placeholderDrawableId, int errorDrawableId) {
         GlideUtil.placeholderDrawableId = placeholderDrawableId;
         GlideUtil.errorDrawableId = errorDrawableId;
+        //通用的request
+        requestOptions = new RequestOptions()
+                .placeholder(placeholderDrawableId)
+                .error(errorDrawableId)
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .dontAnimate();
     }
 
     /**
@@ -42,11 +52,7 @@ public class GlideUtil {
         if (imageView.getTag(R.id.glide_image_tag) == null || !imageView.getTag(R.id.glide_image_tag).equals(url)) {
             Glide.with(context)
                     .load(bytes)
-                    //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .placeholder(placeholderDrawableId)
-                    .error(errorDrawableId)
-                    .dontAnimate()
+                    .apply(requestOptions)
                     .into(imageView);
             imageView.setTag(R.id.glide_image_tag, url);
         }
@@ -76,10 +82,7 @@ public class GlideUtil {
         if (imageView.getTag(R.id.glide_image_tag) == null || !imageView.getTag(R.id.glide_image_tag).equals(url)) {
             Glide.with(context)
                     .load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .placeholder(placehoderId)
-                    .error(errorId)
-                    .dontAnimate()
+                    .apply(requestOptions)
                     .into(imageView);
             imageView.setTag(R.id.glide_image_tag, url);
         }
@@ -108,13 +111,17 @@ public class GlideUtil {
      * @param imageView
      */
     public static void load(Context context, String url, @DrawableRes int placehoderId, @DrawableRes int errorId, String signature, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(placeholderDrawableId)
+                .error(errorDrawableId)
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .signature(new ObjectKey(signature))
+                .dontAnimate();
+
         Glide.with(context)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(placehoderId)
-                .error(errorId)
-                .signature(new StringSignature(signature))
-                .dontAnimate()
+                .apply(options)
                 .into(imageView);
     }
 
@@ -138,14 +145,18 @@ public class GlideUtil {
      * @param simpleTarget
      */
     public static void loadTarget(Context context, String url, int width, int height, SimpleTarget simpleTarget) {
-        Glide.with(context)
-                .load(url)
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+        RequestOptions options = new RequestOptions()
                 .placeholder(placeholderDrawableId)
                 .error(errorDrawableId)
-                .dontAnimate()
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .override(width, height)
+                .dontAnimate();
+
+        Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .apply(options)
                 .into(simpleTarget);
     }
 
@@ -159,13 +170,17 @@ public class GlideUtil {
      * @param simpleTarget
      */
     public static void load(Context context, String url, @DrawableRes int placeholderId, @DrawableRes int errorId, SimpleTarget simpleTarget) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(placeholderDrawableId)
+                .error(errorDrawableId)
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .dontAnimate();
+
         Glide.with(context)
-                .load(url)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(placeholderId)
-                .error(errorId)
-                .dontAnimate()
+                .load(url)
+                .apply(options)
                 .into(simpleTarget);
     }
 
@@ -181,15 +196,18 @@ public class GlideUtil {
      * @param imageView
      */
     public static void load(Context context, String url, int overrideWidth, int overrideHeight, boolean skipCache,
-                            RequestListener<String, Bitmap> requestListener, ImageView imageView) {
-        Glide.with(context)
-                .load(url)
-                .asBitmap()
+                            RequestListener<Bitmap> requestListener, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
                 //skipMemoryCache必须和diskCacheStrategy一起用，才可以跳过缓存
                 .skipMemoryCache(skipCache)
                 //默认使用RESULT
-                .diskCacheStrategy(skipCache ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESULT)
-                .override(overrideWidth, overrideHeight)
+                .diskCacheStrategy(skipCache ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESOURCE)
+                .override(overrideWidth, overrideHeight);
+
+        Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .apply(options)
                 .listener(requestListener)
                 .into(imageView);
     }
@@ -202,13 +220,16 @@ public class GlideUtil {
      * @param imageView
      */
     public static void loadCircle(Context context, String url, boolean hasText, GlideCircleTransform glideCircleTransform, ImageView imageView) {
-        Glide.with(context)
-                .load(url)
+        RequestOptions options = new RequestOptions()
                 //skipMemoryCache必须和diskCacheStrategy一起用，才可以跳过缓存
                 .skipMemoryCache(hasText)
                 //默认使用RESULT
-                .diskCacheStrategy(hasText ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESULT)
-                .bitmapTransform(glideCircleTransform)
+                .diskCacheStrategy(hasText ? DiskCacheStrategy.NONE : DiskCacheStrategy.RESOURCE)
+                .transform(glideCircleTransform);
+
+        Glide.with(context)
+                .load(url)
+                .apply(options)
                 .into(imageView);
     }
 
@@ -231,11 +252,15 @@ public class GlideUtil {
      * @param simpleTarget
      */
     public static void loadWithNoPlaceHolder(Context context, String url, SimpleTarget simpleTarget) {
+        RequestOptions options = new RequestOptions()
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .dontAnimate();
+
         Glide.with(context)
-                .load(url)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .dontAnimate()
+                .load(url)
+                .apply(options)
                 .into(simpleTarget);
     }
 
@@ -250,11 +275,15 @@ public class GlideUtil {
      */
     public static Bitmap load(Context context, String url, int width, int height) {
         try {
+            RequestOptions options = new RequestOptions()
+                    //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                    .diskCacheStrategy(DiskCacheStrategy.DATA);
+
             return Glide.with(context)
-                    .load(url)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(width, height)
+                    .load(url)
+                    .apply(options)
+                    .submit(width, height)
                     .get();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -275,12 +304,16 @@ public class GlideUtil {
      */
     public static Bitmap load(Context context, String url, @DrawableRes int errorId, int width, int height) {
         try {
+            RequestOptions options = new RequestOptions()
+                    //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .error(errorId);
+
             return Glide.with(context)
-                    .load(url)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .error(errorId)
-                    .into(width, height)
+                    .load(url)
+                    .apply(options)
+                    .submit(width, height)
                     .get();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -298,11 +331,15 @@ public class GlideUtil {
      * @param imageView
      */
     public static void loadGif(Context context, String url, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .dontAnimate();
+
         Glide.with(context)
-                .load(url)
                 .asGif()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .dontAnimate()
+                .load(url)
+                .apply(options)
                 .into(imageView);
     }
 
@@ -314,11 +351,15 @@ public class GlideUtil {
      * @param imageView
      */
     public static void loadGifAsImage(Context context, String url, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .dontAnimate();
+
         Glide.with(context)
-                .load(url)
                 .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .dontAnimate()
+                .load(url)
+                .apply(options)
                 .into(imageView);
     }
 
