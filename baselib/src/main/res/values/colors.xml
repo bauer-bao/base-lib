@@ -30,6 +30,8 @@
     <color name="lib_ba_black_80">#33000000</color>
     <!--灰色-->
     <color name="lib_ba_gray">#666666</color>
+    <!--浅灰-->
+    <color name="lib_ba_gray_light">#dadce0</color>
     <!--库默认背景色-->
     <color name="lib_ba_background_light">#f6f9fd</color>
     <!--线-->
