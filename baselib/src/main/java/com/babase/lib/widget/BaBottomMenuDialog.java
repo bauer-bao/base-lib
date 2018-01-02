@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babase.lib.R;
+import com.babase.lib.utils.LibUtil;
 import com.babase.lib.utils.Logger;
 import com.babase.lib.utils.ScreenUtil;
 
@@ -76,7 +76,17 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
      */
     private int titleGravity;
 
+    /**
+     * 显示标题
+     */
+    private boolean showTitle = true;
+
     private View rootView;
+    private LinearLayout linearLayout;
+    private TextView titleTv;
+    private TextView cancelTv;
+    private View titleLine;
+    private View contentBgV;
     protected BaBottomSheetDialog dialog;
     private Context mContext;
 
@@ -97,6 +107,7 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
         listener = builder.listener;
         contentBgDrawable = builder.contentBgDrawable;
         titleGravity = builder.titleGravity;
+        showTitle = builder.showTitle;
     }
 
     @Override
@@ -114,6 +125,11 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
             initView();
         }
         dialog.setContentView(rootView);
+        dialog.setOnDismissListener(dialogInterface -> {
+            if (listener != null) {
+                listener.onDismiss();
+            }
+        });
         mBehavior = dialog.getBottomSheetBehavior();
         return dialog;
     }
@@ -130,21 +146,23 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
      */
     private void initView() {
         rootView = View.inflate(mContext, R.layout.widget_bottom_menu_dialog, null);
-        LinearLayout linearLayout = rootView.findViewById(R.id.bsd_content_ll);
-        TextView titleTv = rootView.findViewById(R.id.bsd_title_tv);
-        TextView cancelTv = rootView.findViewById(R.id.bsd_cancel_tv);
-        View contentBgV = rootView.findViewById(R.id.bsd_content_bg_v);
-        cancelTv.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onCancelClick();
-                dismiss();
-            }
-        });
+        linearLayout = rootView.findViewById(R.id.bsd_content_ll);
+        titleTv = rootView.findViewById(R.id.bsd_title_tv);
+        cancelTv = rootView.findViewById(R.id.bsd_cancel_tv);
+        titleLine = rootView.findViewById(R.id.bsd_title_line_v);
+        contentBgV = rootView.findViewById(R.id.bsd_content_bg_v);
+
+        cancelTv.setOnClickListener(view -> dismiss());
+
         titleTv.setText(titleStr);
         titleTv.setGravity(titleGravity);
         titleTv.setTextColor(titleColor);
         if (titleDrawable != 0) {
-            titleTv.setCompoundDrawablesRelative(ContextCompat.getDrawable(mContext, titleDrawable), null, null, null);
+            titleTv.setCompoundDrawablesRelative(LibUtil.tintDrawable(mContext, titleDrawable, R.color.lib_ba_black, false), null, null, null);
+        }
+        if (!showTitle) {
+            titleTv.setVisibility(View.GONE);
+            titleLine.setVisibility(View.GONE);
         }
         cancelTv.setText(cancelStr);
         cancelTv.setTextColor(cancelColor);
@@ -229,7 +247,12 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
         /**
          * 标题的对齐方式
          */
-        private int titleGravity = Gravity.LEFT;
+        private int titleGravity = Gravity.START;
+
+        /**
+         * 显示标题
+         */
+        private boolean showTitle = true;
 
         public BaBottomMenuBuilder() {
             items = new ArrayList<>();
@@ -285,6 +308,11 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
             return this;
         }
 
+        public BaBottomMenuBuilder setShowTitle(boolean showTitle) {
+            this.showTitle = showTitle;
+            return this;
+        }
+
         public BaBottomMenuDialog build() {
             if (items == null || items.isEmpty()) {
                 Logger.d("can not empty items");
@@ -302,6 +330,6 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
         /**
          * 取消的点击
          */
-        void onCancelClick();
+        void onDismiss();
     }
 }
