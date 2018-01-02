@@ -1,25 +1,17 @@
 package com.babase.lib.widget;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babase.lib.R;
 import com.babase.lib.utils.LibUtil;
-import com.babase.lib.utils.Logger;
 import com.babase.lib.utils.ScreenUtil;
 
 import java.util.ArrayList;
@@ -30,11 +22,11 @@ import java.util.ArrayList;
  * @author bauer on 2018/1/1.
  */
 
-public class BaBottomMenuDialog extends BottomSheetDialogFragment {
+public class BaBottomMenuDialog extends BaBottomSheetDialog {
     /**
      * item内容
      */
-    private ArrayList<String> items;
+    private ArrayList<Item> items = new ArrayList<>();
     /**
      * 标题
      */
@@ -47,7 +39,7 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
      * item的颜色
      */
     @ColorInt
-    private int contentColor;
+    private int contentColor = Color.GRAY;
 
     /**
      * title的颜色
@@ -74,7 +66,7 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
     /**
      * 标题的对齐方式
      */
-    private int titleGravity;
+    private int titleGravity = Gravity.START | Gravity.CENTER_VERTICAL;
 
     /**
      * 显示标题
@@ -87,58 +79,186 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
     private TextView cancelTv;
     private View titleLine;
     private View contentBgV;
-    protected BaBottomSheetDialog dialog;
     private Context mContext;
+
+    private int padding;
 
     protected BottomSheetBehavior mBehavior;
 
-    public BaBottomMenuDialog() {
+    public BaBottomMenuDialog(Context context) {
+        super(context, R.style.BottomSheetDialogStyle);
+        mContext = context;
     }
 
-    @SuppressLint("ValidFragment")
-    public BaBottomMenuDialog(BaBottomMenuBuilder builder) {
-        items = builder.items;
-        titleStr = builder.titleStr;
-        cancelStr = builder.cancelStr;
-        contentColor = builder.contentColor;
-        titleColor = builder.titleColor;
-        cancelColor = builder.cancelColor;
-        titleDrawable = builder.titleDrawable;
-        listener = builder.listener;
-        contentBgDrawable = builder.contentBgDrawable;
-        titleGravity = builder.titleGravity;
-        showTitle = builder.showTitle;
+    /**
+     * 删除item
+     *
+     * @return
+     */
+    public BaBottomMenuDialog clearItem() {
+        items.clear();
+        return this;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context;
+    /**
+     * 添加item
+     *
+     * @param itemStr
+     * @return
+     */
+    public BaBottomMenuDialog addItem(String itemStr) {
+        Item item1 = new Item();
+        item1.setItemStr(itemStr);
+        item1.setItemColor(contentColor);
+        item1.setItemSize(16);
+        items.add(item1);
+        return this;
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = new BaBottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
+    /**
+     * 添加item
+     *
+     * @param itemStr
+     * @param itemColor
+     * @return
+     */
+    public BaBottomMenuDialog addItem(String itemStr, @ColorInt int itemColor) {
+        Item item1 = new Item();
+        item1.setItemStr(itemStr);
+        item1.setItemColor(itemColor);
+        item1.setItemSize(16);
+        items.add(item1);
+        return this;
+    }
+
+    /**
+     * 设置title
+     *
+     * @param titleStr
+     * @return
+     */
+    public BaBottomMenuDialog setTitleStr(String titleStr) {
+        this.titleStr = titleStr;
+        return this;
+    }
+
+    /**
+     * 设置cancel
+     *
+     * @param cancelStr
+     * @return
+     */
+    public BaBottomMenuDialog setCancelStr(String cancelStr) {
+        this.cancelStr = cancelStr;
+        return this;
+    }
+
+    /**
+     * 设置取消颜色
+     *
+     * @param contentColor
+     * @return
+     */
+    public BaBottomMenuDialog setContentColor(@ColorInt int contentColor) {
+        this.contentColor = contentColor;
+        return this;
+    }
+
+    /**
+     * 设置title颜色
+     *
+     * @param titleColor
+     * @return
+     */
+    public BaBottomMenuDialog setTitleColor(@ColorInt int titleColor) {
+        this.titleColor = titleColor;
+        return this;
+    }
+
+    /**
+     * 设置取消颜色
+     *
+     * @param cancelColor
+     * @return
+     */
+    public BaBottomMenuDialog setCancelColor(@ColorInt int cancelColor) {
+        this.cancelColor = cancelColor;
+        return this;
+    }
+
+    /**
+     * 设置title图标
+     *
+     * @param titleDrawable
+     * @return
+     */
+    public BaBottomMenuDialog setTitleDrawable(@DrawableRes int titleDrawable) {
+        this.titleDrawable = titleDrawable;
+        return this;
+    }
+
+    /**
+     * 设置监听
+     *
+     * @param listener
+     * @return
+     */
+    public BaBottomMenuDialog setListener(OnBaBottomMenuClickListener listener) {
+        this.listener = listener;
+        return this;
+    }
+
+    /**
+     * 设置背景
+     *
+     * @param contentBgDrawable
+     * @return
+     */
+    public BaBottomMenuDialog setBgDrawable(@DrawableRes int contentBgDrawable) {
+        this.contentBgDrawable = contentBgDrawable;
+        return this;
+    }
+
+    /**
+     * 设置title对齐方式
+     *
+     * @param titleGravity
+     * @return
+     */
+    public BaBottomMenuDialog setTitleGravity(int titleGravity) {
+        this.titleGravity = titleGravity;
+        return this;
+    }
+
+    /**
+     * 设置是否显示title
+     *
+     * @param showTitle
+     * @return
+     */
+    public BaBottomMenuDialog setShowTitle(boolean showTitle) {
+        this.showTitle = showTitle;
+        return this;
+    }
+
+    /**
+     * 创建dialog
+     *
+     * @return
+     */
+    public BaBottomMenuDialog onCreateDialog() {
         if (rootView == null) {
             //缓存下来的View 当为空时才需要初始化 并缓存
             initView();
         }
-        dialog.setContentView(rootView);
-        dialog.setOnDismissListener(dialogInterface -> {
+        setContentView(rootView);
+        setOnDismissListener(dialogInterface -> {
             if (listener != null) {
                 listener.onDismiss();
             }
         });
-        mBehavior = dialog.getBottomSheetBehavior();
-        return dialog;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //解除缓存View和当前ViewGroup的关联
-        ((ViewGroup) (rootView.getParent())).removeView(rootView);
+        mBehavior = getBottomSheetBehavior();
+        return this;
     }
 
     /**
@@ -151,9 +271,14 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
         cancelTv = rootView.findViewById(R.id.bsd_cancel_tv);
         titleLine = rootView.findViewById(R.id.bsd_title_line_v);
         contentBgV = rootView.findViewById(R.id.bsd_content_bg_v);
-
         cancelTv.setOnClickListener(view -> dismiss());
+        padding = ScreenUtil.dip2px(mContext, 15);
+    }
 
+    /**
+     * 更新设置各个控件
+     */
+    public void updateInfo() {
         titleTv.setText(titleStr);
         titleTv.setGravity(titleGravity);
         titleTv.setTextColor(titleColor);
@@ -170,11 +295,14 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
             contentBgV.setBackgroundResource(contentBgDrawable);
         }
 
-        int padding = ScreenUtil.dip2px(mContext, 15);
+        linearLayout.removeAllViews();
         for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i);
             final int position = i;
             TextView childView = new TextView(mContext);
-            childView.setText(items.get(i));
+            childView.setText(item.getItemStr());
+            childView.setTextColor(item.getItemColor());
+            childView.setTextSize(item.getItemSize());
             childView.setGravity(Gravity.CENTER);
             childView.setPadding(padding, padding, padding, padding);
             childView.setOnClickListener(view -> {
@@ -183,141 +311,38 @@ public class BaBottomMenuDialog extends BottomSheetDialogFragment {
                     dismiss();
                 }
             });
-            childView.setTextColor(contentColor);
-            childView.setTextSize(16);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.addView(childView, params);
         }
     }
 
-    /**
-     * 显示dialog
-     *
-     * @param manager
-     */
-    public void show(FragmentManager manager) {
-        if (!this.isAdded()) {
-            show(manager, "baBottomMenuDialog");
-        }
-    }
+    public class Item {
+        private String itemStr;
+        private int itemColor;
+        private int itemSize;
 
-    /**
-     * 构建build
-     */
-    public static class BaBottomMenuBuilder {
-        /**
-         * item内容
-         */
-        private ArrayList<String> items;
-        /**
-         * 标题
-         */
-        private String titleStr;
-
-        /**
-         * 取消
-         */
-        private String cancelStr;
-        /**
-         * item的颜色
-         */
-        @ColorInt
-        private int contentColor = Color.GRAY;
-        /**
-         * title的颜色
-         */
-        @ColorInt
-        private int titleColor = Color.GRAY;
-        /**
-         * cancel的颜色
-         */
-        @ColorInt
-        private int cancelColor = Color.GRAY;
-        /**
-         * 标题的图标
-         */
-        @DrawableRes
-        private int titleDrawable;
-        private OnBaBottomMenuClickListener listener;
-        /**
-         * 背景颜色
-         */
-        @DrawableRes
-        private int contentBgDrawable;
-        /**
-         * 标题的对齐方式
-         */
-        private int titleGravity = Gravity.START;
-
-        /**
-         * 显示标题
-         */
-        private boolean showTitle = true;
-
-        public BaBottomMenuBuilder() {
-            items = new ArrayList<>();
+        public String getItemStr() {
+            return itemStr;
         }
 
-        public BaBottomMenuBuilder addItem(String title) {
-            items.add(title);
-            return this;
+        public void setItemStr(String itemStr) {
+            this.itemStr = itemStr;
         }
 
-        public BaBottomMenuBuilder setTitleStr(String titleStr) {
-            this.titleStr = titleStr;
-            return this;
+        public int getItemColor() {
+            return itemColor;
         }
 
-        public BaBottomMenuBuilder setCancelStr(String cancelStr) {
-            this.cancelStr = cancelStr;
-            return this;
+        public void setItemColor(int itemColor) {
+            this.itemColor = itemColor;
         }
 
-        public BaBottomMenuBuilder setContentColor(@ColorInt int contentColor) {
-            this.contentColor = contentColor;
-            return this;
+        public int getItemSize() {
+            return itemSize;
         }
 
-        public BaBottomMenuBuilder setTitleColor(@ColorInt int titleColor) {
-            this.titleColor = titleColor;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setCancelColor(@ColorInt int cancelColor) {
-            this.cancelColor = cancelColor;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setTitleDrawable(@DrawableRes int titleDrawable) {
-            this.titleDrawable = titleDrawable;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setListener(OnBaBottomMenuClickListener listener) {
-            this.listener = listener;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setBgDrawable(@DrawableRes int contentBgDrawable) {
-            this.contentBgDrawable = contentBgDrawable;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setTitleGravity(int titleGravity) {
-            this.titleGravity = titleGravity;
-            return this;
-        }
-
-        public BaBottomMenuBuilder setShowTitle(boolean showTitle) {
-            this.showTitle = showTitle;
-            return this;
-        }
-
-        public BaBottomMenuDialog build() {
-            if (items == null || items.isEmpty()) {
-                Logger.d("can not empty items");
-            }
-            return new BaBottomMenuDialog(this);
+        public void setItemSize(int itemSize) {
+            this.itemSize = itemSize;
         }
     }
 

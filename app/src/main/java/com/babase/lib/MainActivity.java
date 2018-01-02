@@ -1,5 +1,6 @@
 package com.babase.lib;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +10,12 @@ import com.babase.lib.utils.AppManager;
 import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.utils.Logger;
+import com.babase.lib.widget.BaBottomMenuDialog;
 import com.babase.lib.widget.BaToast;
 import com.babase.lib.widget.dialog.BaProgressDialog;
 
 public class MainActivity extends AppCompatActivity {
+    private BaBottomMenuDialog baBottomMenuDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +35,39 @@ public class MainActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAcowoProgressDialog();
+//                showAcowoProgressDialog();
 //                baToast.setTextAndShow("test");
 //                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
+                if (baBottomMenuDialog == null) {
+                    baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
+                            .setListener(new BaBottomMenuDialog.OnBaBottomMenuClickListener() {
+                                @Override
+                                public void onContentClick(int position) {
+                                    Logger.d("position--->" + position);
+                                }
+
+                                @Override
+                                public void onDismiss() {
+
+                                }
+                            })
+                            .onCreateDialog();
+                }
+                i++;
+                baBottomMenuDialog.clearItem()
+                        .addItem("111", Color.GREEN)
+                        .addItem("222")
+                        .addItem("333")
+                        .addItem("444")
+                        .addItem("555")
+                        .addItem("" + i)
+                        .updateInfo();
+                baBottomMenuDialog.show();
             }
         });
     }
 
+    private int i = 0;
 
     /**
      * show pwProgressDialog
