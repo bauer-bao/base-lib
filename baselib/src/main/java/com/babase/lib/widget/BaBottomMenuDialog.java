@@ -72,6 +72,10 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
      * 显示标题
      */
     private boolean showTitle = true;
+    /**
+     * id区分不同的dialog
+     */
+    private int id;
 
     private View rootView;
     private LinearLayout linearLayout;
@@ -209,6 +213,17 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
     }
 
     /**
+     * 设置id
+     *
+     * @param id
+     * @return
+     */
+    public BaBottomMenuDialog setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
      * 设置背景
      *
      * @param contentBgDrawable
@@ -307,7 +322,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
             childView.setPadding(padding, padding, padding, padding);
             childView.setOnClickListener(view -> {
                 if (listener != null) {
-                    listener.onContentClick(position);
+                    listener.onContentClick(position, id);
                     dismiss();
                 }
             });
@@ -350,7 +365,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         /**
          * item的点击
          */
-        void onContentClick(int position);
+        void onContentClick(int position, int id);
 
         /**
          * 取消的点击
