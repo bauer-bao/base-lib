@@ -2,16 +2,17 @@ package com.babase.lib.widget;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.babase.lib.R;
-import com.babase.lib.utils.LibUtil;
 import com.babase.lib.utils.ScreenUtil;
 
 import java.util.ArrayList;
@@ -269,7 +270,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         setContentView(rootView);
         setOnDismissListener(dialogInterface -> {
             if (listener != null) {
-                listener.onDismiss();
+                listener.onDismiss(id);
             }
         });
         mBehavior = getBottomSheetBehavior();
@@ -293,13 +294,18 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
     /**
      * 更新设置各个控件
      */
-    public void updateInfo() {
+    public BaBottomMenuDialog updateInfo() {
         titleTv.setText(titleStr);
         titleTv.setGravity(titleGravity);
         titleTv.setTextColor(titleColor);
         if (titleDrawable != 0) {
-            titleTv.setCompoundDrawablesRelative(LibUtil.tintDrawable(mContext, titleDrawable, R.color.lib_ba_black, false), null, null, null);
+            final Drawable drawable = ContextCompat.getDrawable(mContext, titleDrawable);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth() * 2 / 3, drawable.getMinimumHeight() * 2 / 3);
+            titleTv.setCompoundDrawablesRelative(drawable, null, null, null);
+        } else {
+            titleTv.setCompoundDrawablesRelative(null, null, null, null);
         }
+        titleTv.setCompoundDrawablePadding(padding);
         if (!showTitle) {
             titleTv.setVisibility(View.GONE);
             titleLine.setVisibility(View.GONE);
@@ -329,6 +335,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.addView(childView, params);
         }
+        return this;
     }
 
     public class Item {
@@ -370,6 +377,6 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         /**
          * 取消的点击
          */
-        void onDismiss();
+        void onDismiss(int id);
     }
 }
