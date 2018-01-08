@@ -16,7 +16,7 @@ import com.babase.lib.widget.dialog.BaProgressDialog;
 
 public class MainActivity extends AppCompatActivity {
     private BaBottomMenuDialog baBottomMenuDialog;
-
+    BaToast baToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,38 +31,39 @@ public class MainActivity extends AppCompatActivity {
         GlideCircleTransform glideCircleTransform = new GlideCircleTransform(this);
         glideCircleTransform.setText("HH");
         GlideUtil.loadCircle(this, "http://img05.tooopen.com/images/20140328/sy_57865838889.jpg", true, glideCircleTransform, imageView);
-        BaToast baToast = new BaToast(this);
+         baToast = new BaToast(this);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                showAcowoProgressDialog();
-//                baToast.setTextAndShow("test");
+                baToast.setTextAndShow("test");
 //                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
-                if (baBottomMenuDialog == null) {
-                    baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
-                            .setListener(new BaBottomMenuDialog.OnBaBottomMenuClickListener() {
-                                @Override
-                                public void onContentClick(int position) {
-                                    Logger.d("position--->" + position);
-                                }
 
-                                @Override
-                                public void onDismiss() {
-
-                                }
-                            })
-                            .onCreateDialog();
-                }
-                i++;
-                baBottomMenuDialog.clearItem()
-                        .addItem("111", Color.GREEN)
-                        .addItem("222")
-                        .addItem("333")
-                        .addItem("444")
-                        .addItem("555")
-                        .addItem("" + i)
-                        .updateInfo();
-                baBottomMenuDialog.show();
+//                if (baBottomMenuDialog == null) {
+//                    baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
+//                            .setListener(new BaBottomMenuDialog.OnBaBottomMenuClickListener() {
+//                                @Override
+//                                public void onContentClick(int position, int id) {
+//                                    Logger.d("position--->" + position);
+//                                }
+//
+//                                @Override
+//                                public void onDismiss(int id) {
+//
+//                                }
+//                            })
+//                            .onCreateDialog();
+//                }
+//                i++;
+//                baBottomMenuDialog.clearItem()
+//                        .addItem("111", Color.GREEN)
+//                        .addItem("222")
+//                        .addItem("333")
+//                        .addItem("444")
+//                        .addItem("555")
+//                        .addItem("" + i)
+//                        .updateInfo();
+//                baBottomMenuDialog.show();
             }
         });
     }
@@ -82,5 +83,11 @@ public class MainActivity extends AppCompatActivity {
             acowoProgressDialog.setBaProgressDialogMessage("loading llhlj");
             acowoProgressDialog.baProgressDialogShow();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        baToast.cancelShow();
+        super.onPause();
     }
 }

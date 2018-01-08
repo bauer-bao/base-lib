@@ -58,7 +58,7 @@ public class BaEmptyErrorView extends LinearLayout {
 
         widgetEmptyErrorBtn.setOnClickListener(view -> {
             if (clickListener != null) {
-                clickListener.reload();
+                clickListener.btnClick();
             }
         });
     }
@@ -126,10 +126,36 @@ public class BaEmptyErrorView extends LinearLayout {
     /**
      * 点击回调
      */
-    public interface OnSceenClickListener {
+    public interface OnScreenClickCallback {
         /**
          * 重新加载
          */
         void reload();
+
+        /**
+         * 按钮点击
+         */
+        void btnClick();
+    }
+
+    /**
+     * 点击回调
+     */
+    public abstract class OnSceenClickListener implements OnScreenClickCallback {
+        /**
+         * 重新加载
+         */
+        @Override
+        public void reload() {
+
+        }
+
+        /**
+         * 按钮点击
+         */
+        @Override
+        public void btnClick() {
+
+        }
     }
 }

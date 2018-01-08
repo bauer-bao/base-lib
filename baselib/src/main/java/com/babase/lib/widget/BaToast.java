@@ -192,6 +192,9 @@ public class BaToast implements Handler.Callback {
      */
     public void cancelShow() {
         try {
+            if (handler != null) {
+                handler.removeCallbacksAndMessages(null);
+            }
             manger.removeView(contentView);
         } catch (IllegalArgumentException e) {
             //这边由于上下文被销毁后removeView可能会抛出IllegalArgumentException
