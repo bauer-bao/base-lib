@@ -31,5 +31,5 @@ dependencies {
     implementation 'com.android.support:design:27.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':baselib')
-//    implementation 'com.github.bauer-bao:base-lib:1.0.3'
+//    implementation 'com.github.bauer-bao:base-lib:1.0.19'
 }

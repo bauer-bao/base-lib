@@ -1,6 +1,7 @@
 package com.babase.lib.utils;
 
 import com.hwangjr.rxbus.Bus;
+import com.hwangjr.rxbus.thread.ThreadEnforcer;
 
 /**
  * github  https://github.com/AndroidKnife/RxBus
@@ -23,7 +24,7 @@ public final class Rx2Bus {
 
     public synchronized static Bus get() {
         if (sBus == null) {
-            sBus = new Bus();
+            sBus = new Bus(ThreadEnforcer.ANY);
         }
         return sBus;
     }
