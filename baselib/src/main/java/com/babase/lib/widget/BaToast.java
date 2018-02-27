@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.babase.lib.R;
 import com.babase.lib.utils.ScreenUtil;
@@ -31,7 +30,6 @@ import com.babase.lib.utils.ScreenUtil;
 public class BaToast implements Handler.Callback {
 
     private static final int DISMISS_TOAST = 111;
-    private Toast toast;
     private WindowManager manger;
     private WindowManager.LayoutParams params;
     /**
@@ -66,7 +64,6 @@ public class BaToast implements Handler.Callback {
 
     private void initView(Context context) {
         manger = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        toast = new Toast(context);
         handler = new Handler(this);
 
         //获取LayoutInflater对象
@@ -74,8 +71,6 @@ public class BaToast implements Handler.Callback {
         //由layout文件创建一个View对象
         contentView = inflater.inflate(R.layout.widget_ba_toast, null);
         textView = contentView.findViewById(R.id.toast_tv);
-
-        toast.setView(contentView);
 
         // 设置toast位置
         params = new WindowManager.LayoutParams();
@@ -208,9 +203,6 @@ public class BaToast implements Handler.Callback {
             //这边由于上下文被销毁后removeView可能会抛出IllegalArgumentException
             //暂时这么处理，因为EToast2是轻量级的，不想和Context上下文的生命周期绑定在一块儿
             //其实如果真的想这么做，可以参考博文2的第一种实现方式，添加一个空的fragment来做生命周期绑定
-        }
-        if (toast != null) {
-            toast.cancel();
         }
     }
 

@@ -4,7 +4,9 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
@@ -18,7 +20,18 @@ import android.support.v4.app.NotificationCompat;
 public class NotificationUtil {
     private static NotificationManager nm;
 
-    public static boolean showNotification(Context context, int notificationId, @DrawableRes int smallIcon, String contentTitle, String contentText, String ticker) {
+    /**
+     * 显示notification
+     *
+     * @param context
+     * @param notificationId
+     * @param smallIcon
+     * @param contentTitle
+     * @param contentText
+     * @param ticker
+     * @return
+     */
+    public static boolean showNotification(Context context, int notificationId, @DrawableRes int smallIcon, String contentTitle, String contentText, String ticker, Intent intent) {
         if (LibUtil.isNotificationEnabled(context)) {
             //有权限
             if (nm == null) {
@@ -36,7 +49,7 @@ public class NotificationUtil {
                 nm.createNotificationChannel(channel);
             }
 
-            Notification notification = new NotificationCompat.Builder(context, "channelId")
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channelId")
                     .setSmallIcon(smallIcon)
                     //8.0的话，不能设置，设置了没法悬浮显示，8.0以下的，设置不设置都没关系
 //                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.splash_logo))
@@ -47,10 +60,16 @@ public class NotificationUtil {
                     .setFullScreenIntent(null, true)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
-                    .setTicker(ticker)
-                    .build();
+                    .setTicker(ticker);
+            if (intent != null) {
+                //0为requestCode， FLAG_UPDATE_CURRENT表示会更新同一个notificationId的其他pendingIntent
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(pendingIntent);
+            }
+            //移除之前的通知
             nm.cancel(notificationId);
-            nm.notify(notificationId, notification);
+            //显示最新的通知
+            nm.notify(notificationId, builder.build());
             return true;
         } else {
             //没有权限
