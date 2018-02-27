@@ -42,6 +42,7 @@ public class BaToast implements Handler.Callback {
     private View contentView;
     private TextView textView;
     private Context context;
+    private OnDismissListener listener;
 
     public static BaToast getInstance(Context context) {
         if (baToast == null) {
@@ -57,6 +58,10 @@ public class BaToast implements Handler.Callback {
     public BaToast(Context context) {
         this.context = context;
         initView(context);
+    }
+
+    public void setListener(OnDismissListener listener) {
+        this.listener = listener;
     }
 
     private void initView(Context context) {
@@ -196,6 +201,9 @@ public class BaToast implements Handler.Callback {
                 handler.removeCallbacksAndMessages(null);
             }
             manger.removeView(contentView);
+            if (listener != null) {
+                listener.toastDismiss();
+            }
         } catch (IllegalArgumentException e) {
             //这边由于上下文被销毁后removeView可能会抛出IllegalArgumentException
             //暂时这么处理，因为EToast2是轻量级的，不想和Context上下文的生命周期绑定在一块儿
@@ -210,5 +218,12 @@ public class BaToast implements Handler.Callback {
     public boolean handleMessage(Message msg) {
         cancelShow();
         return false;
+    }
+
+    /**
+     * 消失回调
+     */
+    public interface OnDismissListener {
+        void toastDismiss();
     }
 }
