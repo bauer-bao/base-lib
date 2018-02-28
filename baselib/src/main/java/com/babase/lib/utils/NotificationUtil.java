@@ -31,7 +31,7 @@ public class NotificationUtil {
      * @param ticker
      * @return
      */
-    public static boolean showNotification(Context context, int notificationId, @DrawableRes int smallIcon, String contentTitle, String contentText, String ticker, Intent intent) {
+    public static boolean showNotification(Context context, int notificationId, @DrawableRes int smallIcon, String contentTitle, String contentText, String ticker, PendingIntent pendingIntent) {
         if (LibUtil.isNotificationEnabled(context)) {
             //有权限
             if (nm == null) {
@@ -61,9 +61,7 @@ public class NotificationUtil {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
                     .setTicker(ticker);
-            if (intent != null) {
-                //0为requestCode， FLAG_UPDATE_CURRENT表示会更新同一个notificationId的其他pendingIntent
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            if (pendingIntent != null) {
                 builder.setContentIntent(pendingIntent);
             }
             //移除之前的通知
@@ -79,5 +77,41 @@ public class NotificationUtil {
             }
             return false;
         }
+    }
+
+    /**
+     * 获取pendingintent activity
+     *
+     * @param context
+     * @param intent
+     * @return
+     */
+    public static PendingIntent getPendingActivityIntent(Context context, Intent intent) {
+        //0为requestCode， FLAG_UPDATE_CURRENT表示会更新同一个notificationId的其他pendingIntent
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    /**
+     * 获取pendingintent broadcast
+     *
+     * @param context
+     * @param intent
+     * @return
+     */
+    public static PendingIntent getPendingBroadcastIntent(Context context, Intent intent) {
+        //0为requestCode， FLAG_UPDATE_CURRENT表示会更新同一个notificationId的其他pendingIntent
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    /**
+     * 获取pendingintent service
+     *
+     * @param context
+     * @param intent
+     * @return
+     */
+    public static PendingIntent getPendingServiceIntent(Context context, Intent intent) {
+        //0为requestCode， FLAG_UPDATE_CURRENT表示会更新同一个notificationId的其他pendingIntent
+        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }

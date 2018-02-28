@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                showAcowoProgressDialog();
                 baToast.setTextAndShow("test");
-                NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", new Intent(MainActivity.this, MainActivity.class));
+                NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", null);
 //                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
 
 //                if (baBottomMenuDialog == null) {
