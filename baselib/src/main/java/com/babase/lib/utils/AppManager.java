@@ -149,6 +149,22 @@ public class AppManager {
             }
         }
     }
+    
+    /**
+     * 结束除了specialActivity之外的其他的activity
+     *
+     * @param specialActivityStr 指定的activity
+     */
+    public void killOtherActivity(String specialActivityStr) {
+        Iterator<Activity> iterator = mActivityStack.iterator();
+        while (iterator.hasNext()) {
+            Activity activity = iterator.next();
+            if (!activity.getComponentName().getClassName().endsWith(specialActivityStr)) {
+                activity.finish();
+                iterator.remove();
+            }
+        }
+    }
 
     /**
      * 退出应用程序，并且杀死进程
