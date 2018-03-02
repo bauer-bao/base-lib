@@ -75,6 +75,21 @@ public class AppManager {
     }
 
     /**
+     * 检查是否有对应的Activity
+     *
+     * @param cls
+     * @return
+     */
+    public boolean checkActivity(String cls) {
+        for (Activity act : mActivityStack) {
+            if (act.getComponentName().getClassName().endsWith(cls)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 结束栈顶Activity（堆栈中最后一个压入的）
      */
     public void killTopActivity() {
