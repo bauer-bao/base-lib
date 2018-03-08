@@ -1,10 +1,18 @@
 package com.babase.lib.utils;
 
 import android.content.Context;
+import android.os.Environment;
+import android.text.TextUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -41,6 +49,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
 
+    private String logFileFolderPath;
+
     /**
      * 保证只有一个CrashHandler实例
      */
@@ -60,8 +70,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
     /**
      * 初始化
      */
-    public void init(Context context) {
+    public void init(Context context, String logFileFolderPath) {
         mContext = context;
+        this.logFileFolderPath = logFileFolderPath;
         //获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         //设置该CrashHandler为程序的默认处理器
@@ -102,56 +113,58 @@ public class CrashHandler implements UncaughtExceptionHandler {
         infos = LibUtil.collectDeviceInfo(mContext);
 
         //保存日志文件
-//        saveCatchInfo2File(ex);
+        if (!TextUtils.isEmpty(logFileFolderPath)) {
+            saveCatchInfo2File(ex);
+        }
         return true;
     }
 
-//    /**
-//     * 保存错误信息到文件中
-//     *
-//     * @param ex
-//     * @return 返回文件名称, 便于将文件传送到服务器
-//     */
-//    private String saveCatchInfo2File(Throwable ex) {
-//
-//        StringBuilder sb = new StringBuilder();
-//        for (Map.Entry<String, String> entry : infos.entrySet()) {
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            sb.append(key).append("=").append(value).append("\n");
-//        }
-//
-//        Writer writer = new StringWriter();
-//        PrintWriter printWriter = new PrintWriter(writer);
-//        ex.printStackTrace(printWriter);
-//        Throwable cause = ex.getCause();
-//        while (cause != null) {
-//            cause.printStackTrace(printWriter);
-//            cause = cause.getCause();
-//        }
-//        printWriter.close();
-//        String result = writer.toString();
-//        sb.append(result);
-//        try {
-//            long timestamp = System.currentTimeMillis();
-//            String time = formatter.format(new Date());
-//            String fileName = "crash-" + time + "-" + timestamp + ".log";
-//            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-//                File dir = new File(Common.LOG_PATH);
-//                if (!dir.exists()) {
-//                    dir.mkdirs();
-//                }
-//                FileOutputStream fos = new FileOutputStream(dir + "/" + fileName);
-//                fos.write(sb.toString().getBytes());
-//                //发送给开发人员
-////				sendCrashLog2PM(path+fileName);
-//                fos.flush();
-//                fos.close();
-//            }
-//            return fileName;
-//        } catch (Exception e) {
-//            PucLog.e(e);
-//        }
-//        return null;
-//    }
+    /**
+     * 保存错误信息到文件中
+     *
+     * @param ex
+     * @return 返回文件名称, 便于将文件传送到服务器
+     */
+    private String saveCatchInfo2File(Throwable ex) {
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> entry : infos.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            sb.append(key).append("=").append(value).append("\n");
+        }
+
+        Writer writer = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(writer);
+        ex.printStackTrace(printWriter);
+        Throwable cause = ex.getCause();
+        while (cause != null) {
+            cause.printStackTrace(printWriter);
+            cause = cause.getCause();
+        }
+        printWriter.close();
+        String result = writer.toString();
+        sb.append(result);
+        try {
+            long timestamp = System.currentTimeMillis();
+            String time = formatter.format(new Date());
+            String fileName = "crash-" + time + "-" + timestamp + ".log";
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                File dir = new File(logFileFolderPath);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                FileOutputStream fos = new FileOutputStream(dir + "/" + fileName);
+                fos.write(sb.toString().getBytes());
+                //发送给开发人员
+//				sendCrashLog2PM(path+fileName);
+                fos.flush();
+                fos.close();
+            }
+            return fileName;
+        } catch (Exception e) {
+            Logger.e(e);
+        }
+        return null;
+    }
 }

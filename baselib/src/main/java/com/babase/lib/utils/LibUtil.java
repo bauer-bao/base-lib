@@ -52,6 +52,7 @@ public class LibUtil {
     public static final int FILE_TYPE_PDF = 9;
     public static final int FILE_TYPE_ZIP = 10;
     public static final int FILE_TYPE_APK = 11;
+    public static final int FILE_TYPE_UNKNOW = 12;
 
     /**
      * 收集设备参数信息
@@ -463,6 +464,9 @@ public class LibUtil {
      * @return
      */
     public static int getFileType(String fileName) {
+        if (TextUtils.isEmpty(fileName)) {
+            return FILE_TYPE_UNKNOW;
+        }
         if (fileName.toLowerCase().endsWith(".3gp")
                 || fileName.toLowerCase().endsWith(".asf")
                 || fileName.toLowerCase().endsWith(".avi")
