@@ -41,6 +41,10 @@ public class BaToast implements Handler.Callback {
     private TextView textView;
     private Context context;
     private OnDismissListener listener;
+    /**
+     * 提示的时间
+     */
+    private int showTime = 1000;
 
     public static BaToast getInstance(Context context) {
         if (baToast == null) {
@@ -60,6 +64,10 @@ public class BaToast implements Handler.Callback {
 
     public void setListener(OnDismissListener listener) {
         this.listener = listener;
+    }
+
+    public void setShowTime(int showTime) {
+        this.showTime = showTime;
     }
 
     private void initView(Context context) {
@@ -151,7 +159,7 @@ public class BaToast implements Handler.Callback {
      * @param str
      */
     public void setTextAndShow(String str) {
-        setTextAndShow(str, 1000);
+        setTextAndShow(str, showTime);
     }
 
     /**
@@ -160,7 +168,7 @@ public class BaToast implements Handler.Callback {
      * @param stringId
      */
     public void setTextAndShow(@StringRes int stringId) {
-        setTextAndShow(stringId, 1000);
+        setTextAndShow(stringId, showTime);
     }
 
     /**
