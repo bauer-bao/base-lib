@@ -99,11 +99,6 @@
 }
 # 如果配置了GlideModule，需要加后面的代码  -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
-# 友盟
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
-
 # 对库进行混淆
 -keep class com.babase.lib.** {
     public *;

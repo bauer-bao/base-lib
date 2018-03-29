@@ -38,7 +38,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     @Override
     public void onActivityPaused(Activity activity) {
         isForeground = false;
-        lifeCycleListener.onPaunse();
+        lifeCycleListener.onPause();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     }
 
     public interface LifeCycleListener {
-        void onPaunse();
+        void onPause();
 
         void onResume();
     }

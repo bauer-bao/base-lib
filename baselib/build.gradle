@@ -1,7 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
-group='com.github.bauer-bao'
+group = 'com.github.bauer-bao'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.8.1'
+    }
+}
 
 android {
     compileSdkVersion 27
@@ -24,10 +34,31 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+//发布脚本命令  ./gradlew clean build generatePomFileForReleasePublication bintrayUpload -PbintrayUser=bauer -PbintrayKey=bccc93fdbf3f7ec33c1b9ce52d2c4157c2ba9d36 -PdryRun=false
+publish {
+    //用户id
+    userOrg = 'bauer'
+    //repo
+    repoName = 'android'
+    //包名
+    groupId = 'com.babase.lib'
+    //bintary的package名
+    artifactId = 'base-lib'
+    //版本号
+    publishVersion = '0.0.5'
+    //描述
+    desc = 'Just an Android base tool library'
 }
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     //material design + 系统
     api 'com.android.support:appcompat-v7:27.0.2'
     api 'com.android.support:design:27.0.2'
@@ -38,6 +69,4 @@ dependencies {
     api('com.hwangjr.rxbus:rxbus:2.0.0') {//不需要timber库
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }
-    //友盟
-    api 'com.umeng.analytics:analytics:6.1.2'
 }

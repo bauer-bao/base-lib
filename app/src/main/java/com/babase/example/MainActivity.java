@@ -1,7 +1,5 @@
-package com.babase.lib;
+package com.babase.example;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //                showAcowoProgressDialog();
                 baToast.setTextAndShow("test");
                 NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", null);
-//                AppManager.getInstance().killActivity("com.babase.lib.MainActivity");
+//                AppManager.getInstance().killActivity("com.babase.example.MainActivity");
 
 //                if (baBottomMenuDialog == null) {
 //                    baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
