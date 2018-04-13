@@ -10,10 +10,11 @@ import android.os.Bundle;
 
 public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks {
     private LifeCycleListener lifeCycleListener;
-    /**
-     * 应用是否处于前端
-     */
-    private boolean isForeground = false;
+    private int resumed;
+    private int paused;
+    private int started;
+    private int stopped;
+    private int created;
 
     public ActivityLifecycle(LifeCycleListener lifeCycleListener) {
         this.lifeCycleListener = lifeCycleListener;
@@ -21,29 +22,29 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+        created++;
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-
+        started++;
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        isForeground = true;
+        resumed++;
         lifeCycleListener.onResume();
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        isForeground = false;
+        paused++;
         lifeCycleListener.onPause();
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-
+        stopped++;
     }
 
     @Override
@@ -56,8 +57,16 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     }
 
+    /**
+     * 判断app是否是在前台，如果以pause和resume区分的话，因为页面切换的时候pause和resume有个时间差，在这时间差内结果不准确
+     * resume和pause：页面是否有焦点
+     * start和stop：页面是否可见
+     * 此处，可见即可用来判断是否在前台。
+     *
+     * @return
+     */
     public boolean isForeground() {
-        return isForeground;
+        return started > stopped;
     }
 
     public interface LifeCycleListener {
