@@ -73,6 +73,18 @@ public class ScreenUtil {
     }
 
     /**
+     * sp转成px
+     *
+     * @param ctx
+     * @param spValue
+     * @return
+     */
+    public static int sp2px(Context ctx, float spValue) {
+        final float scaledDensity = ctx.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * scaledDensity + 0.5f);
+    }
+
+    /**
      * 把像素转换为密度
      */
     public static int px2dip(Context context, float pxValue) {

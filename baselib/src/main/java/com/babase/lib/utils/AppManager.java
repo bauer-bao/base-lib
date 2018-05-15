@@ -18,6 +18,9 @@ public class AppManager {
     private static AppManager mAppManager;
 
     private AppManager() {
+        if (mActivityStack == null) {
+            mActivityStack = new Stack<>();
+        }
     }
 
     /**
@@ -34,10 +37,6 @@ public class AppManager {
      * 添加Activity到堆栈
      */
     public void addActivity(Activity activity) {
-        if (mActivityStack == null) {
-            mActivityStack = new Stack<>();
-        }
-
         if (!mActivityStack.contains(activity)) {
             mActivityStack.add(activity);
         }
@@ -164,7 +163,7 @@ public class AppManager {
             }
         }
     }
-    
+
     /**
      * 结束除了specialActivity之外的其他的activity
      *

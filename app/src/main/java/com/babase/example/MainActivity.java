@@ -1,5 +1,6 @@
 package com.babase.example;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,36 +38,47 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                showAcowoProgressDialog();
                 baToast.setTextAndShow("test");
-                NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", null);
+//                NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", null);
 //                AppManager.getInstance().killActivity("com.babase.example.MainActivity");
 
-//                if (baBottomMenuDialog == null) {
-//                    baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
-//                            .setListener(new BaBottomMenuDialog.OnBaBottomMenuClickListener() {
-//                                @Override
-//                                public void onContentClick(int position, int id) {
-//                                    Logger.d("position--->" + position);
-//                                }
-//
-//                                @Override
-//                                public void onDismiss(int id) {
-//
-//                                }
-//                            })
-//                            .onCreateDialog();
-//                }
-//                i++;
-//                baBottomMenuDialog.clearItem()
-//                        .addItem("111", Color.GREEN)
-//                        .addItem("222")
-//                        .addItem("333")
-//                        .addItem("444")
-//                        .addItem("555")
-//                        .addItem("" + i)
-//                        .updateInfo();
-//                baBottomMenuDialog.show();
+
+        baBottomMenuDialog.clearItem()
+                .addItem("111", Color.GREEN)
+                .addItem("222")
+                .addItem("333")
+                .addItem("444")
+                .addItem("555")
+                .addItem("666")
+                .addItem("777")
+                .addItem("" + i)
+                .updateInfo();
+
+                baBottomMenuDialog.show();
             }
         });
+        if (baBottomMenuDialog == null) {
+            baBottomMenuDialog = new BaBottomMenuDialog(MainActivity.this)
+                    .setListener(new BaBottomMenuDialog.OnBaBottomMenuClickListener() {
+                        @Override
+                        public void onContentClick(int position, int id) {
+                            Logger.d("position--->" + position);
+                        }
+
+                        @Override
+                        public void onDismiss(int id) {
+
+                        }
+                    })
+                    .onCreateDialog();
+        }
+        i++;
+        baBottomMenuDialog.clearItem()
+                .addItem("111", Color.GREEN)
+                .addItem("555")
+                .addItem("555")
+                .addItem("" + i)
+                .updateInfo();
+        baBottomMenuDialog.show();
     }
 
     private int i = 0;

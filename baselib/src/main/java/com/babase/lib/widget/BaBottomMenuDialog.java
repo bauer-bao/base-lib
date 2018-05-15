@@ -269,6 +269,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         }
         setContentView(rootView);
         setOnDismissListener(dialogInterface -> {
+            isSliding = false;
             if (listener != null) {
                 listener.onDismiss(id);
             }

@@ -23,6 +23,7 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         created++;
+        lifeCycleListener.onCreate();
     }
 
     @Override
@@ -70,6 +71,8 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
     }
 
     public interface LifeCycleListener {
+        void onCreate();
+
         void onPause();
 
         void onResume();
