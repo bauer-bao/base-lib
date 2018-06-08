@@ -39,6 +39,8 @@ public class BaWebView extends WebView {
     private boolean isShowVerticalScrollBarEnabled = false;
     private boolean loadFailed = false;
 
+    private ScrollRunnable scrollRunnable;
+
     public BaWebView(Context context) {
         super(context);
         init();
@@ -79,6 +81,24 @@ public class BaWebView extends WebView {
 
 //        setWebChromeClient();
         setWebViewClient();
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (scrollRunnable != null) {
+            removeCallbacks(scrollRunnable);
+            scrollRunnable = null;
+            if (myWebviewImp != null) {
+                myWebviewImp.scrolling(l, t, oldl, oldt);
+            }
+        } else {
+            if (myWebviewImp != null) {
+                myWebviewImp.scrollStart();
+            }
+        }
+        scrollRunnable = new ScrollRunnable();
+        postDelayed(scrollRunnable, 200);
     }
 
     public void load(String url) {
@@ -147,6 +167,18 @@ public class BaWebView extends WebView {
         return this;
     }
 
+    private class ScrollRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            removeCallbacks(scrollRunnable);
+            scrollRunnable = null;
+            if (myWebviewImp != null) {
+                myWebviewImp.scrollStop();
+            }
+        }
+    }
+
     public interface WebViewImp {
         /**
          * 加载失败
@@ -162,5 +194,20 @@ public class BaWebView extends WebView {
          * 加载完成
          */
         void loadFinish();
+
+        /**
+         * 滑动开始
+         */
+        void scrollStart();
+
+        /**
+         * 滚动中
+         */
+        void scrolling(int l, int t, int oldl, int oldt);
+
+        /**
+         * 滑动结束
+         */
+        void scrollStop();
     }
 }
