@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -82,6 +83,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
     private LinearLayout linearLayout;
     private TextView titleTv;
     private TextView cancelTv;
+    private ImageView bsdIconIv;
     private View titleLine;
     private View contentBgV;
     private Context mContext;
@@ -258,6 +260,15 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
     }
 
     /**
+     * 获取icon的iv
+     *
+     * @return
+     */
+    public ImageView getBsdIconIv() {
+        return bsdIconIv;
+    }
+
+    /**
      * 创建dialog
      *
      * @return
@@ -288,6 +299,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         cancelTv = rootView.findViewById(R.id.bsd_cancel_tv);
         titleLine = rootView.findViewById(R.id.bsd_title_line_v);
         contentBgV = rootView.findViewById(R.id.bsd_content_bg_v);
+        bsdIconIv = rootView.findViewById(R.id.bsd_icon_iv);
         cancelTv.setOnClickListener(view -> dismiss());
         padding = ScreenUtil.dip2px(mContext, 15);
     }

@@ -21,6 +21,7 @@ public class BaWebView extends WebView {
      * webview的接口
      */
     private WebViewImp myWebviewImp;
+    private ScrollListener scrollListener;
     private WebSettings settings;
 
     /**
@@ -57,7 +58,8 @@ public class BaWebView extends WebView {
 
         settings = getSettings();
         settings.setJavaScriptEnabled(isSupportJavaScript);
-//        settings.setSavePassword(false);
+        //防止密码明文存储漏洞
+        settings.setSavePassword(false);
 
 //        settings.setAllowFileAccess(true);// 设置可以访问网络
 //        settings.setSupportZoom(true);
@@ -86,19 +88,17 @@ public class BaWebView extends WebView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (scrollRunnable != null) {
-            removeCallbacks(scrollRunnable);
-            scrollRunnable = null;
-            if (myWebviewImp != null) {
-                myWebviewImp.scrolling(l, t, oldl, oldt);
+        if (scrollListener != null) {
+            if (scrollRunnable != null) {
+                removeCallbacks(scrollRunnable);
+                scrollRunnable = null;
+                scrollListener.scrolling(l, t, oldl, oldt);
+            } else {
+                scrollListener.scrollStart();
             }
-        } else {
-            if (myWebviewImp != null) {
-                myWebviewImp.scrollStart();
-            }
+            scrollRunnable = new ScrollRunnable();
+            postDelayed(scrollRunnable, 200);
         }
-        scrollRunnable = new ScrollRunnable();
-        postDelayed(scrollRunnable, 200);
     }
 
     public void load(String url) {
@@ -167,14 +167,23 @@ public class BaWebView extends WebView {
         return this;
     }
 
+    /**
+     * 滚动监听
+     *
+     * @param scrollListener
+     */
+    public void setScrollListener(ScrollListener scrollListener) {
+        this.scrollListener = scrollListener;
+    }
+
     private class ScrollRunnable implements Runnable {
 
         @Override
         public void run() {
             removeCallbacks(scrollRunnable);
             scrollRunnable = null;
-            if (myWebviewImp != null) {
-                myWebviewImp.scrollStop();
+            if (scrollListener != null) {
+                scrollListener.scrollStop();
             }
         }
     }
@@ -194,7 +203,9 @@ public class BaWebView extends WebView {
          * 加载完成
          */
         void loadFinish();
+    }
 
+    public interface ScrollListener {
         /**
          * 滑动开始
          */
@@ -202,6 +213,11 @@ public class BaWebView extends WebView {
 
         /**
          * 滚动中
+         *
+         * @param l     左边的距离
+         * @param t     上边的距离
+         * @param oldl  上一次左边的距离
+         * @param oldt  上一次上边的距离
          */
         void scrolling(int l, int t, int oldl, int oldt);
 
