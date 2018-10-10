@@ -19,6 +19,11 @@ import java.util.concurrent.ExecutionException;
 /**
  * 图片加载类, 统一适配(方便换库,方便管理)
  * 需要什么方法, 就添加什么方法
+ * DiskCacheStrategy.NONE：      表示不缓存任何内容。
+ * DiskCacheStrategy.DATA：      表示只缓存原始图片。
+ * DiskCacheStrategy.RESOURCE：  表示只缓存转换过后的图片。
+ * DiskCacheStrategy.ALL ：      表示既缓存原始图片，也缓存转换过后的图片。
+ * DiskCacheStrategy.AUTOMATIC： 表示让Glide根据图片资源智能地选择使用哪一种缓存策略（默认选项）
  *
  * @author by bauer_bao on 16/8/2.
  */
@@ -330,16 +335,18 @@ public class GlideUtil {
      * @param url
      * @param imageView
      */
-    public static void loadGif(Context context, String url, ImageView imageView) {
+    public static void loadGif(Context context, String url, RequestListener requestListener, ImageView imageView) {
         RequestOptions options = new RequestOptions()
+                .placeholder(placeholderDrawableId)
+                .error(errorDrawableId)
                 //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .dontAnimate();
+                .diskCacheStrategy(DiskCacheStrategy.DATA);
 
         Glide.with(context)
                 .asGif()
                 .load(url)
                 .apply(options)
+                .listener(requestListener)
                 .into(imageView);
     }
 
