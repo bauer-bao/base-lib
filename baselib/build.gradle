@@ -86,7 +86,7 @@ dependencies {
 //}
 //发布脚本命令  ./gradlew clean build releaseAndroidSourcesJar generatePomFileForReleasePublication bintrayUpload -PbintrayUser=bauer -PbintrayKey=bccc93fdbf3f7ec33c1b9ce52d2c4157c2ba9d36 -PdryRun=false
 //发布脚本命令  ./gradlew clean build generatePomFileForReleasePublication bintrayUpload -PbintrayUser=bauer -PbintrayKey=bccc93fdbf3f7ec33c1b9ce52d2c4157c2ba9d36 -PdryRun=false
-//发布脚本命令  ./gradlew clean build generatePomFileForReleasePublication bintrayUpload
+//发布脚本命令  ./gradlew clean build generatePomFileForReleasePublication bintrayUpload   建议把上传命令单独执行，不然很有可能优先执行上传任务
 publish {
     //用户id
     userOrg = 'bauer'
@@ -97,7 +97,7 @@ publish {
     //bintary的package名
     artifactId = 'base-lib'
     //版本号
-    publishVersion = '0.0.15'
+    publishVersion = '0.0.16'
     //描述
     desc = 'Just an Android base tool library'
     //账号

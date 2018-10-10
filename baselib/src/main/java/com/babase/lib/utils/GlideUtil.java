@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.babase.lib.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -335,12 +336,35 @@ public class GlideUtil {
      * @param url
      * @param imageView
      */
-    public static void loadGif(Context context, String url, RequestListener requestListener, ImageView imageView) {
+    public static void loadGif(Context context, String url, RequestListener<GifDrawable> requestListener, ImageView imageView) {
         RequestOptions options = new RequestOptions()
                 .placeholder(placeholderDrawableId)
                 .error(errorDrawableId)
                 //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
                 .diskCacheStrategy(DiskCacheStrategy.DATA);
+
+        Glide.with(context)
+                .asGif()
+                .load(url)
+                .apply(options)
+                .listener(requestListener)
+                .into(imageView);
+    }
+
+    /**
+     * 加载url
+     *
+     * @param context
+     * @param url
+     * @param imageView
+     */
+    public static void loadGif(Context context, String url, int overrideWidth, int overrideHeight, RequestListener<GifDrawable> requestListener, ImageView imageView) {
+        RequestOptions options = new RequestOptions()
+                .placeholder(placeholderDrawableId)
+                .error(errorDrawableId)
+                //565的图片，有些图片被过度压缩，导致图片泛绿，要么改成8888，要么修改缓存模式，缓存未压缩图片
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .override(overrideWidth, overrideHeight);
 
         Glide.with(context)
                 .asGif()
