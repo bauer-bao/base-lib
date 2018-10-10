@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.babase.lib.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -327,6 +328,29 @@ public class GlideUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 加载图片
+     *
+     * @param context
+     * @param url
+     * @param options
+     * @param isGif
+     * @param listener
+     * @param imageView
+     */
+    public static void load(Context context, String url, RequestOptions options, boolean isGif, RequestListener listener, ImageView imageView) {
+        RequestBuilder requestBuilder;
+        if (isGif) {
+            requestBuilder = Glide.with(context).asGif();
+        } else {
+            requestBuilder = Glide.with(context).asBitmap();
+        }
+        requestBuilder.load(url)
+                .apply(options)
+                .listener(listener)
+                .into(imageView);
     }
 
     /**
