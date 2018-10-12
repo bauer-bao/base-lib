@@ -114,6 +114,9 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
      * @return
      */
     public BaBottomMenuDialog addItem(String itemStr) {
+        if (itemStr == null) {
+            return this;
+        }
         Item item1 = new Item();
         item1.setItemStr(itemStr);
         item1.setItemColor(contentColor);
@@ -130,6 +133,9 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
      * @return
      */
     public BaBottomMenuDialog addItem(String itemStr, @ColorInt int itemColor) {
+        if (itemStr == null) {
+            return this;
+        }
         Item item1 = new Item();
         item1.setItemStr(itemStr);
         item1.setItemColor(itemColor);
