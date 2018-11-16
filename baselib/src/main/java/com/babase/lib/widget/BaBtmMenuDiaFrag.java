@@ -155,6 +155,10 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
             titleTv.setVisibility(View.GONE);
             titleLineV.setVisibility(View.GONE);
             titleBgV.setVisibility(View.GONE);
+        } else {
+            titleTv.setVisibility(View.VISIBLE);
+            titleLineV.setVisibility(View.VISIBLE);
+            titleBgV.setVisibility(View.VISIBLE);
         }
     }
 
