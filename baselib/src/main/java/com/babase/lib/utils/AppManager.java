@@ -137,6 +137,31 @@ public class AppManager {
     }
 
     /**
+     * 结束指定类名的Activity，可能存在多个，以standard形式开启的页面
+     */
+    public void killRepeatActivities(Class<?> cls) {
+        for (Activity activity : mActivityStack) {
+            if (activity.getClass().equals(cls)) {
+                killActivity(activity);
+            }
+        }
+    }
+
+    /**
+     * 结束指定类名的Activity，可能存在多个，以standard形式开启的页面
+     *
+     * @param cls 建议使用包名+类名的形式
+     */
+    public void killRepeatActivities(String cls) {
+        for (Activity activity : mActivityStack) {
+            //classname：是包含包名，shortclassname：只有activity名
+            if (activity.getComponentName().getClassName().endsWith(cls)) {
+                killActivity(activity);
+            }
+        }
+    }
+
+    /**
      * 结束所有Activity
      */
     private void killAllActivity() {

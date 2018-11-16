@@ -1,6 +1,7 @@
 package com.babase.lib.utils;
 
 import android.app.AppOpsManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -321,19 +322,16 @@ public class LibUtil {
      * @return
      */
     public static boolean isNotificationEnabled(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).areNotificationsEnabled();
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
             ApplicationInfo appInfo = context.getApplicationInfo();
-
             String pkg = context.getApplicationContext().getPackageName();
-
             int uid = appInfo.uid;
 
-            /* Context.APP_OPS_MANAGER */
-            Class appOpsClass = null;
-
             try {
-                appOpsClass = Class.forName(AppOpsManager.class.getName());
+                Class<?> appOpsClass = Class.forName(AppOpsManager.class.getName());
                 Method checkOpNoThrowMethod = appOpsClass.getMethod("checkOpNoThrow", Integer.TYPE, Integer.TYPE, String.class);
                 Field opPostNotificationValue = appOpsClass.getDeclaredField("OP_POST_NOTIFICATION");
                 int value = (int) opPostNotificationValue.get(Integer.class);
@@ -343,7 +341,7 @@ public class LibUtil {
                 return false;
             }
         } else {
-            return false;
+            return true;
         }
     }
 

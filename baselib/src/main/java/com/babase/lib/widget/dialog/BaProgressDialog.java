@@ -22,9 +22,13 @@ import com.babase.lib.R;
  * 注意点，show和dismiss必须要在main线程中执行
  * <p>
  * 加载动画，建议使用gif，然后使用glide加载。但是项目中的图片制作出来的gif边缘模糊，因此依旧使用帧动画实现
+ * <p>
+ * 使用 {@link BaFragProgressDialog} 代替
  *
  * @author bauer_bao
  */
+
+@Deprecated
 public class BaProgressDialog extends Dialog {
     private Context mContext;
     /**

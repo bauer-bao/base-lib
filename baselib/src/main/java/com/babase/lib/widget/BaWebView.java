@@ -61,10 +61,16 @@ public class BaWebView extends WebView {
         //防止密码明文存储漏洞
         settings.setSavePassword(false);
 
-//        settings.setAllowFileAccess(true);// 设置可以访问网络
+//        settings.setAllowFileAccess(false);
+//        settings.supportMultipleWindows();
+//        settings.setAllowContentAccess(true);
+//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+//        settings.setUseWideViewPort(true);
+//        settings.setLoadWithOverviewMode(true);
 //        settings.setSupportZoom(true);
-//        settings.setBuiltInZoomControls(false);// 设置不支持缩放
+//        settings.setBuiltInZoomControls(true);
 //        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        settings.setLoadsImagesAutomatically(true);
 //        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);//默认为normal
 //
 //        settings.setSaveFormData(false);
@@ -81,7 +87,7 @@ public class BaWebView extends WebView {
 //        // webSettings.setDatabasePath(cacheDirPath);
 //        settings.setPluginState(WebSettings.PluginState.ON);
 
-//        setWebChromeClient();
+//        setWebChromeClient(new WebChromeClient());
         setWebViewClient();
     }
 

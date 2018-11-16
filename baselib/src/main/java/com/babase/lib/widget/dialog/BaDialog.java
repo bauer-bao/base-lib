@@ -59,9 +59,13 @@ import com.babase.lib.utils.ScreenUtil;
  * .pwDialogCreate();
  * }
  * pwDialog.pwDialogShow();
+ * <p>
+ * 使用 {@link BaFragDialog} 代替
  *
  * @author bauer_bao
  */
+
+@Deprecated
 public class BaDialog extends Dialog {
     private Context mContext;
     /**

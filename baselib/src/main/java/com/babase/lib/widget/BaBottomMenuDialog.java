@@ -7,6 +7,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,10 +21,11 @@ import java.util.ArrayList;
 
 /**
  * 底部菜单 采用BottomSheetDialog
+ * 请使用{@link BaBtmMenuDiaFrag}代替
  *
  * @author bauer on 2018/1/1.
  */
-
+@Deprecated
 public class BaBottomMenuDialog extends BaBottomSheetDialog {
     /**
      * item内容
@@ -114,6 +116,16 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
      * @return
      */
     public BaBottomMenuDialog addItem(String itemStr) {
+        return addItem(itemStr, null);
+    }
+
+    /**
+     * 添加item
+     *
+     * @param itemStr
+     * @return
+     */
+    public BaBottomMenuDialog addItem(String itemStr, String action) {
         if (itemStr == null) {
             return this;
         }
@@ -121,6 +133,11 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         item1.setItemStr(itemStr);
         item1.setItemColor(contentColor);
         item1.setItemSize(16);
+        if (TextUtils.isEmpty(action)) {
+            item1.setAction(items.size() + "");
+        } else {
+            item1.setAction(action);
+        }
         items.add(item1);
         return this;
     }
@@ -133,6 +150,17 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
      * @return
      */
     public BaBottomMenuDialog addItem(String itemStr, @ColorInt int itemColor) {
+        return addItem(itemStr, itemColor, null);
+    }
+
+    /**
+     * 添加item
+     *
+     * @param itemStr
+     * @param itemColor
+     * @return
+     */
+    public BaBottomMenuDialog addItem(String itemStr, @ColorInt int itemColor, String action) {
         if (itemStr == null) {
             return this;
         }
@@ -140,6 +168,11 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         item1.setItemStr(itemStr);
         item1.setItemColor(itemColor);
         item1.setItemSize(16);
+        if (TextUtils.isEmpty(action)) {
+            item1.setAction(items.size() + "");
+        } else {
+            item1.setAction(action);
+        }
         items.add(item1);
         return this;
     }
@@ -338,7 +371,6 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         linearLayout.removeAllViews();
         for (int i = 0; i < items.size(); i++) {
             Item item = items.get(i);
-            final int position = i;
             TextView childView = new TextView(mContext);
             childView.setText(item.getItemStr());
             childView.setTextColor(item.getItemColor());
@@ -347,7 +379,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
             childView.setPadding(padding, padding, padding, padding);
             childView.setOnClickListener(view -> {
                 if (listener != null) {
-                    listener.onContentClick(position, id);
+                    listener.onContentClick(item.getAction(), id);
                     dismiss();
                 }
             });
@@ -361,6 +393,7 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         private String itemStr;
         private int itemColor;
         private int itemSize;
+        private String action;
 
         public String getItemStr() {
             return itemStr;
@@ -385,13 +418,21 @@ public class BaBottomMenuDialog extends BaBottomSheetDialog {
         public void setItemSize(int itemSize) {
             this.itemSize = itemSize;
         }
+
+        public String getAction() {
+            return action;
+        }
+
+        public void setAction(String action) {
+            this.action = action;
+        }
     }
 
     public interface OnBaBottomMenuClickListener {
         /**
          * item的点击
          */
-        void onContentClick(int position, int id);
+        void onContentClick(String action, int id);
 
         /**
          * 取消的点击

@@ -22,4 +22,9 @@
         android:id="@+id/text_iv"
         android:layout_width="100dp"
         android:layout_height="100dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/test_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

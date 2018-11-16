@@ -101,12 +101,12 @@ public class BaDialogButton extends FrameLayout {
      */
     public void setButtonTextColor(int positiveColorId, int negativeColorId) {
         //设置取消按钮颜色
-        if (negativeColorId != 0 && btnNegative.isShown()) {
+        if (negativeColorId != 0 && btnNegative.getVisibility() == VISIBLE) {
             btnNegative.setTextColor(ContextCompat.getColor(context, negativeColorId));
         }
 
         //设置确定按钮颜色
-        if (positiveColorId != 0 && btnPositive.isShown()) {
+        if (positiveColorId != 0 && btnPositive.getVisibility() == VISIBLE) {
             btnPositive.setTextColor(ContextCompat.getColor(context, positiveColorId));
         }
     }
