@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.babase.lib.R;
+import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.utils.ScreenUtil;
 
 import java.util.ArrayList;
@@ -58,6 +59,14 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * 取消
      */
     private String cancelStr;
+
+    /**
+     * 是否可见
+     */
+    private int iconVisible = View.GONE;
+    private ImageView.ScaleType iconScaleType = ImageView.ScaleType.FIT_CENTER;
+    private int iconVerticalPadding = 2;
+    private String iconUrl;
 
     /**
      * item的颜色
@@ -159,6 +168,13 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
             titleTv.setVisibility(View.VISIBLE);
             titleLineV.setVisibility(View.VISIBLE);
             titleBgV.setVisibility(View.VISIBLE);
+        }
+        //设置icon
+        iconIv.setVisibility(iconVisible);
+        if (iconVisible == View.VISIBLE) {
+            iconIv.setScaleType(iconScaleType);
+            iconIv.setPadding(0, iconVerticalPadding, 0, iconVerticalPadding);
+            GlideUtil.load(mContext, iconUrl, iconIv);
         }
     }
 
@@ -363,12 +379,47 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
     }
 
     /**
-     * 获取icon的iv
+     * 设置icon是否可见
      *
+     * @param iconVisible
      * @return
      */
-    public ImageView getIconIv() {
-        return iconIv;
+    public BaBtmMenuDiaFrag setIconVisible(int iconVisible) {
+        this.iconVisible = iconVisible;
+        return this;
+    }
+
+    /**
+     * 设置icon加载图片类型
+     *
+     * @param iconScaleType
+     * @return
+     */
+    public BaBtmMenuDiaFrag setIconScaleType(ImageView.ScaleType iconScaleType) {
+        this.iconScaleType = iconScaleType;
+        return this;
+    }
+
+    /**
+     * 设置icon的间距
+     *
+     * @param iconVerticalPadding
+     * @return
+     */
+    public BaBtmMenuDiaFrag setIconVerticalPadding(int iconVerticalPadding) {
+        this.iconVerticalPadding = iconVerticalPadding;
+        return this;
+    }
+
+    /**
+     * 设置icon的url
+     *
+     * @param iconUrl
+     * @return
+     */
+    public BaBtmMenuDiaFrag setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+        return this;
     }
 
     /**

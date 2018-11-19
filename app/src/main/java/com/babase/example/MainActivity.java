@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.babase.lib.utils.AppManager;
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                             .addItem("11")
                             .addItem("12")
                             .addItem("13")
+                            .setIconVisible(View.GONE)
                             .show(getSupportFragmentManager(), "bottomsheetdialog");
                 } else {
                     frag.clearItem()
@@ -150,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
                             .setCancelStr("cancel")
                             .addItem("11", Color.RED)
                             .addItem("22")
+                            .setIconVisible(View.VISIBLE)
+                            .setIconVerticalPadding(6)
+                            .setIconUrl("http://img05.tooopen.com/images/20140328/sy_57865838889.jpg")
                             .show(getSupportFragmentManager(), "bottomsheetdialog");
                 }
 
