@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onContentClick(String action, String tag) {
                             Logger.d(" content click--->" + action);
+                            frag.show(getSupportFragmentManager(), "bottomsheetdialog");
                         }
 
                         @Override

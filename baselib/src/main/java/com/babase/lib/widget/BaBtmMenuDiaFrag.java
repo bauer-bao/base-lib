@@ -459,20 +459,20 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
                 holder.itemCancelTv.setVisibility(View.GONE);
             }
             holder.itemCancelTv.setOnClickListener(v -> {
+                dismiss();
                 if (listener != null) {
                     listener.onCancelClick(tag);
                 }
-                dismiss();
             });
             //content
             holder.itemContentTv.setText(items.get(position).getItemTextStr());
             holder.itemContentTv.setTextSize(items.get(position).getItemTextSize());
             holder.itemContentTv.setTextColor(items.get(position).getItemTextColor());
             holder.itemContentTv.setOnClickListener(v -> {
+                dismiss();
                 if (listener != null) {
                     listener.onContentClick(items.get(position).getAction(), tag);
                 }
-                dismiss();
             });
             if (position == 0 && position == items.size() - 1) {
                 //就1项
