@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -68,26 +69,31 @@ public class BaFragDialog extends DialogFragment {
     /**
      * title字体颜色
      */
+    @ColorRes
     private int titleColorId;
 
     /**
      * message字体颜色
      */
+    @ColorRes
     private int messageColorId;
 
     /**
      * 确定按钮字体颜色
      */
+    @ColorRes
     private int positiveButtonColorId;
 
     /**
      * 取消按钮字体颜色
      */
+    @ColorRes
     private int negativeButtonColorId;
 
     /**
      * 背景颜色
      */
+    @ColorRes
     private int backgroundColor = 0;
 
     private OnDialogButtonListener dialogButtonListener;
@@ -188,23 +194,12 @@ public class BaFragDialog extends DialogFragment {
     }
 
     /**
-     * 设置title
-     *
-     * @param titleId
-     * @return
-     */
-    public BaFragDialog setBaDialogTitle(int titleId) {
-        this.titleStr = mContext.getString(titleId);
-        return this;
-    }
-
-    /**
      * 设置title字体颜色
      *
      * @param titleColorId
      * @return
      */
-    public BaFragDialog setBaDialogTitleColor(int titleColorId) {
+    public BaFragDialog setBaDialogTitleColor(@ColorRes int titleColorId) {
         this.titleColorId = titleColorId;
         return this;
     }
@@ -221,23 +216,12 @@ public class BaFragDialog extends DialogFragment {
     }
 
     /**
-     * 设置message
-     *
-     * @param messageId
-     * @return
-     */
-    public BaFragDialog setBaDialogMessage(int messageId) {
-        this.messageStr = mContext.getString(messageId);
-        return this;
-    }
-
-    /**
      * 设置message字体颜色
      *
      * @param messageColorId
      * @return
      */
-    public BaFragDialog setBaDialogMessageColor(int messageColorId) {
+    public BaFragDialog setBaDialogMessageColor(@ColorRes int messageColorId) {
         this.messageColorId = messageColorId;
         return this;
     }
@@ -265,35 +249,13 @@ public class BaFragDialog extends DialogFragment {
     }
 
     /**
-     * 设置确认按钮
-     *
-     * @param positiveId
-     * @return
-     */
-    public BaFragDialog setBaDialogPositiveButton(int positiveId) {
-        this.positiveButtonStr = mContext.getString(positiveId);
-        return this;
-    }
-
-    /**
      * 设置确定按钮颜色
      *
      * @param positiveButtonColorId
      * @return
      */
-    public BaFragDialog setBaDialogPositiveButtonColor(int positiveButtonColorId) {
+    public BaFragDialog setBaDialogPositiveButtonColor(@ColorRes int positiveButtonColorId) {
         this.positiveButtonColorId = positiveButtonColorId;
-        return this;
-    }
-
-    /**
-     * 设置取消按钮，null则不显示取消按钮
-     *
-     * @param negativeId
-     * @return
-     */
-    public BaFragDialog setBaDialogNegativeButton(int negativeId) {
-        this.negativeButtonStr = mContext.getString(negativeId);
         return this;
     }
 
@@ -314,7 +276,7 @@ public class BaFragDialog extends DialogFragment {
      * @param negativeButtonColorId
      * @return
      */
-    public BaFragDialog setBaDialogNegativeButtonColor(int negativeButtonColorId) {
+    public BaFragDialog setBaDialogNegativeButtonColor(@ColorRes int negativeButtonColorId) {
         this.negativeButtonColorId = negativeButtonColorId;
         return this;
     }
@@ -330,7 +292,7 @@ public class BaFragDialog extends DialogFragment {
         return this;
     }
 
-    public BaFragDialog setBaDialogBackgroundColor(int colorId) {
+    public BaFragDialog setBaDialogBackgroundColor(@ColorRes int colorId) {
         this.backgroundColor = colorId;
         return this;
     }

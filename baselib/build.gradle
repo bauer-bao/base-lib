@@ -98,7 +98,7 @@ publish {
     //bintary的package名
     artifactId = 'base-lib'
     //版本号
-    publishVersion = '0.0.22'
+    publishVersion = '0.0.23'
     //描述
     desc = 'Just an Android base tool library'
     //账号

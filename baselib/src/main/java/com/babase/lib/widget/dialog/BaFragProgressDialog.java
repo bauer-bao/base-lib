@@ -157,17 +157,6 @@ public class BaFragProgressDialog extends AppCompatDialogFragment {
     }
 
     /**
-     * 设置message
-     *
-     * @param messageId
-     * @return
-     */
-    public BaFragProgressDialog setBaProgressDialogMessage(int messageId) {
-        this.messageStr = mContext.getString(messageId);
-        return this;
-    }
-
-    /**
      * 设置点击对话框外部是否取消，默认不可取消
      *
      * @param cancelable
