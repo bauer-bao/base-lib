@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -143,6 +145,26 @@ public class BaFragProgressDialog extends AppCompatDialogFragment {
         if (listener != null) {
             listener.onCancel();
         }
+    }
+
+    /**
+     * 显示dialog，重写，不然会报Can not perform this action after onSaveInstanceState 错误
+     *
+     * @param tag
+     */
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(this, tag);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    /**
+     * 和show对应
+     */
+    @Override
+    public void dismiss() {
+        dismissAllowingStateLoss();
     }
 
     /**

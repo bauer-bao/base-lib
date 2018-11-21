@@ -1,4 +1,4 @@
-package com.babase.lib.widget;
+package com.babase.lib.widget.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * 底部菜单 采用BottomSheetDialog
- * 请使用{@link BaBtmMenuDiaFrag}代替
+ * 请使用{@link BaBtmMenuFragDialog}代替
  *
  * @author bauer on 2018/1/1.
  */

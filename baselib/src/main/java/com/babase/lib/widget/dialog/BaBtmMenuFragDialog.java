@@ -1,4 +1,4 @@
-package com.babase.lib.widget;
+package com.babase.lib.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.support.annotation.StyleRes;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +37,7 @@ import java.util.ArrayList;
 /**
  * @author bauer on 2018/11/1.
  */
-public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
+public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
     private BaBtmSheetDialog dialog;
     private RecyclerView recyclerView;
     private TextView titleTv;
@@ -202,11 +204,31 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
     }
 
     /**
+     * 显示dialog，重写，不然会报Can not perform this action after onSaveInstanceState 错误
+     *
+     * @param tag
+     */
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.add(this, tag);
+        fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    /**
+     * 和show对应
+     */
+    @Override
+    public void dismiss() {
+        dismissAllowingStateLoss();
+    }
+
+    /**
      * 删除item
      *
      * @return
      */
-    public BaBtmMenuDiaFrag clearItem() {
+    public BaBtmMenuFragDialog clearItem() {
         items.clear();
         return this;
     }
@@ -217,7 +239,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param itemStr
      * @return
      */
-    public BaBtmMenuDiaFrag addItem(String itemStr) {
+    public BaBtmMenuFragDialog addItem(String itemStr) {
         return addItem(itemStr, null);
     }
 
@@ -227,7 +249,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param itemStr
      * @return
      */
-    public BaBtmMenuDiaFrag addItem(String itemStr, String action) {
+    public BaBtmMenuFragDialog addItem(String itemStr, String action) {
         if (itemStr == null) {
             return this;
         }
@@ -251,7 +273,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param itemColor
      * @return
      */
-    public BaBtmMenuDiaFrag addItem(String itemStr, @ColorInt int itemColor) {
+    public BaBtmMenuFragDialog addItem(String itemStr, @ColorInt int itemColor) {
         return addItem(itemStr, itemColor, null);
     }
 
@@ -262,7 +284,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param itemColor
      * @return
      */
-    public BaBtmMenuDiaFrag addItem(String itemStr, @ColorInt int itemColor, String action) {
+    public BaBtmMenuFragDialog addItem(String itemStr, @ColorInt int itemColor, String action) {
         if (itemStr == null) {
             return this;
         }
@@ -285,7 +307,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param titleStr
      * @return
      */
-    public BaBtmMenuDiaFrag setTitleStr(String titleStr) {
+    public BaBtmMenuFragDialog setTitleStr(String titleStr) {
         this.titleStr = titleStr;
         return this;
     }
@@ -296,7 +318,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param cancelStr
      * @return
      */
-    public BaBtmMenuDiaFrag setCancelStr(String cancelStr) {
+    public BaBtmMenuFragDialog setCancelStr(String cancelStr) {
         this.cancelStr = cancelStr;
         return this;
     }
@@ -307,7 +329,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param contentColor
      * @return
      */
-    public BaBtmMenuDiaFrag setContentColor(@ColorInt int contentColor) {
+    public BaBtmMenuFragDialog setContentColor(@ColorInt int contentColor) {
         this.contentColor = contentColor;
         return this;
     }
@@ -318,7 +340,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param titleColor
      * @return
      */
-    public BaBtmMenuDiaFrag setTitleColor(@ColorInt int titleColor) {
+    public BaBtmMenuFragDialog setTitleColor(@ColorInt int titleColor) {
         this.titleColor = titleColor;
         return this;
     }
@@ -329,7 +351,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param cancelColor
      * @return
      */
-    public BaBtmMenuDiaFrag setCancelColor(@ColorInt int cancelColor) {
+    public BaBtmMenuFragDialog setCancelColor(@ColorInt int cancelColor) {
         this.cancelColor = cancelColor;
         return this;
     }
@@ -340,7 +362,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param titleDrawable
      * @return
      */
-    public BaBtmMenuDiaFrag setTitleDrawable(@DrawableRes int titleDrawable) {
+    public BaBtmMenuFragDialog setTitleDrawable(@DrawableRes int titleDrawable) {
         this.titleDrawable = titleDrawable;
         return this;
     }
@@ -351,7 +373,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param listener
      * @return
      */
-    public BaBtmMenuDiaFrag setListener(OnBaBtmMenuFragClickListener listener) {
+    public BaBtmMenuFragDialog setListener(OnBaBtmMenuFragClickListener listener) {
         this.listener = listener;
         return this;
     }
@@ -362,7 +384,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param tag
      * @return
      */
-    public BaBtmMenuDiaFrag setTag(String tag) {
+    public BaBtmMenuFragDialog setTag(String tag) {
         this.tag = tag;
         return this;
     }
@@ -373,7 +395,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param titleGravity
      * @return
      */
-    public BaBtmMenuDiaFrag setTitleGravity(int titleGravity) {
+    public BaBtmMenuFragDialog setTitleGravity(int titleGravity) {
         this.titleGravity = titleGravity;
         return this;
     }
@@ -384,7 +406,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param iconVisible
      * @return
      */
-    public BaBtmMenuDiaFrag setIconVisible(int iconVisible) {
+    public BaBtmMenuFragDialog setIconVisible(int iconVisible) {
         this.iconVisible = iconVisible;
         return this;
     }
@@ -395,7 +417,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param iconScaleType
      * @return
      */
-    public BaBtmMenuDiaFrag setIconScaleType(ImageView.ScaleType iconScaleType) {
+    public BaBtmMenuFragDialog setIconScaleType(ImageView.ScaleType iconScaleType) {
         this.iconScaleType = iconScaleType;
         return this;
     }
@@ -406,7 +428,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param iconVerticalPadding
      * @return
      */
-    public BaBtmMenuDiaFrag setIconVerticalPadding(int iconVerticalPadding) {
+    public BaBtmMenuFragDialog setIconVerticalPadding(int iconVerticalPadding) {
         this.iconVerticalPadding = iconVerticalPadding;
         return this;
     }
@@ -417,7 +439,7 @@ public class BaBtmMenuDiaFrag extends BottomSheetDialogFragment {
      * @param iconUrl
      * @return
      */
-    public BaBtmMenuDiaFrag setIconUrl(String iconUrl) {
+    public BaBtmMenuFragDialog setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
         return this;
     }

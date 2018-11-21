@@ -1,4 +1,4 @@
-package com.babase.lib.widget;
+package com.babase.lib.widget.dialog;
 
 import android.content.Context;
 import android.os.Bundle;

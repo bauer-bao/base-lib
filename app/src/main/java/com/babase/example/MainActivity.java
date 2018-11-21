@@ -14,7 +14,7 @@ import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.utils.Logger;
 import com.babase.lib.utils.NotificationUtil;
-import com.babase.lib.widget.BaBtmMenuDiaFrag;
+import com.babase.lib.widget.dialog.BaBtmMenuFragDialog;
 import com.babase.lib.widget.BaRvItemDecorationDivider;
 import com.babase.lib.widget.BaToast;
 import com.babase.lib.widget.dialog.BaFragDialog;
@@ -28,7 +28,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private BaToast baToast;
-    private BaBtmMenuDiaFrag frag;
+    private BaBtmMenuFragDialog frag;
     private BaFragProgressDialog progressDialog;
     private BaFragDialog baFragDialog;
     private int i = 0;
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             } else if (position == 3) {
                 //bottom sheet dialog
                 if (frag == null) {
-                    frag = new BaBtmMenuDiaFrag();
-                    frag.setListener(new BaBtmMenuDiaFrag.OnBaBtmMenuFragClickListener() {
+                    frag = new BaBtmMenuFragDialog();
+                    frag.setListener(new BaBtmMenuFragDialog.OnBaBtmMenuFragClickListener() {
                         @Override
                         public void onContentClick(String action, String tag) {
                             Logger.d(" content click--->" + action);
