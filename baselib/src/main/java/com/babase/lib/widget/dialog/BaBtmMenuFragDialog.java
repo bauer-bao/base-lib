@@ -12,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
     private BaBtmSheetDialog dialog;
     private RecyclerView recyclerView;
+    private ConstraintLayout bbmdFragCl;
     private TextView titleTv;
     private View titleBgV;
     private ImageView iconIv;
@@ -107,6 +109,11 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
      */
     private int drawablePadding;
 
+    /**
+     * 最大高度
+     */
+    private int maxHeight;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -136,6 +143,8 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
             iconIv = rootV.findViewById(R.id.bbmd_frag_icon_iv);
             recyclerView = rootV.findViewById(R.id.bbmd_frag_rv);
             titleLineV = rootV.findViewById(R.id.bbmd_frag_line_v);
+            bbmdFragCl = rootV.findViewById(R.id.bbmd_frag_cl);
+            bbmdFragCl.setOnClickListener(v -> dismiss());
 
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             itemAdapter = new ItemAdapter();
@@ -177,6 +186,11 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
             iconIv.setScaleType(iconScaleType);
             iconIv.setPadding(0, iconVerticalPadding, 0, iconVerticalPadding);
             GlideUtil.load(mContext, iconUrl, iconIv);
+        }
+        if (maxHeight > 0) {
+            bbmdFragCl.getLayoutParams().height = maxHeight;
+        } else {
+            bbmdFragCl.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
     }
 
@@ -397,6 +411,20 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
      */
     public BaBtmMenuFragDialog setTitleGravity(int titleGravity) {
         this.titleGravity = titleGravity;
+        return this;
+    }
+
+    /**
+     * 设置最大高度
+     *
+     * @param maxHeight
+     * @return
+     */
+    public BaBtmMenuFragDialog setMaxHeight(int maxHeight) {
+        if (maxHeight > 0 && maxHeight < 300) {
+            maxHeight = 300;
+        }
+        this.maxHeight = maxHeight;
         return this;
     }
 

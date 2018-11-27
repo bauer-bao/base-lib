@@ -1,6 +1,40 @@
 # batool
 
-1.Looger 支持行数的跳转
-2.BaToast 支持忽略"通知"权限
-3.基于BottomSheetDialog的底部菜单对话框
-4.recyclerview的加载中、加载失败、无数据的三种UI图
+1.Acache
+    简易的数据缓存类
+2.ActivityLifecycle
+    用来判断app是否在前台
+3.AppManager
+    activity的管理类
+4.CrashHandler
+    奔溃的时候收集日志类
+5.GlideUtil
+    glide的封装类
+6.Looger
+    支持行数的跳转
+7.Network
+    检测网络连接状态
+8.NotificationUtil
+    显示通知
+9.ReflectionUtil
+    获取src资源对应的id值
+10.ScreenUtil
+    屏幕封装类
+11.SpUtils
+    sp封装类
+12.BaBtmMenuFragDialog
+    底部菜单对话框
+13.BaFragDialog
+    普通对话框
+14.BaFragProgressDialog
+    普通进度条对话框
+15.BaEditText
+    待删除按钮的输入框
+16.BaEmptyErrorView BaLoadingView
+    recyclerview的加载中、加载失败、无数据的三种UI图
+17.BaRvItemDecorationDivider
+    recyclerview的divier封装类
+18.BaToast
+    支持忽略"通知"权限
+19.BaWebView
+    webview的封装类
