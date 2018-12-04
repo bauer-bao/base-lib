@@ -28,7 +28,6 @@ import com.babase.lib.R;
  * @author bauer_bao
  */
 
-@Deprecated
 public class BaProgressDialog extends Dialog {
     private Context mContext;
     /**

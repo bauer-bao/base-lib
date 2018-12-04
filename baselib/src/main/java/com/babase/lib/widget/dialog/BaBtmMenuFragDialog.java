@@ -149,6 +149,16 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             itemAdapter = new ItemAdapter();
             recyclerView.setAdapter(itemAdapter);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    //正常滚动，从1->2->0 基本是瞬间结束，但是此处的控件，在某些项目中（此demo不会）会延迟几秒，原因未知。导致延迟的几秒内，列表的点击事件全部被拦截掉
+                    if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        recyclerView.stopScroll();
+                    }
+                }
+            });
         } else {
             ((ViewGroup) rootV.getParent()).removeView(rootV);
         }

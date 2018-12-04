@@ -14,6 +14,7 @@ import com.babase.lib.utils.GlideCircleTransform;
 import com.babase.lib.utils.GlideUtil;
 import com.babase.lib.utils.Logger;
 import com.babase.lib.utils.NotificationUtil;
+import com.babase.lib.utils.ScreenUtil;
 import com.babase.lib.widget.dialog.BaBtmMenuFragDialog;
 import com.babase.lib.widget.BaRvItemDecorationDivider;
 import com.babase.lib.widget.BaToast;
@@ -130,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 if (i % 2 == 0) {
                     frag.clearItem()
                             .addItem("1")
+                            .setMaxHeight(ScreenUtil.getScreenHeight(this) / 2)
                             .setContentColor(Color.BLUE)
                             .setTitleStr("title")
                             .addItem("2", Color.GREEN)
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             .addItem("6")
                             .addItem("7")
                             .addItem("8")
-                            .setCancelStr("cancel")
+                            .setCancelStr(null)
                             .addItem("9")
                             .addItem("10")
                             .addItem("11")
