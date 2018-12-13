@@ -16,6 +16,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -234,9 +235,12 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
      */
     @Override
     public void show(FragmentManager manager, String tag) {
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        fragmentTransaction.add(this, tag);
-        fragmentTransaction.commitAllowingStateLoss();
+        Fragment fragment = manager.findFragmentByTag(tag);
+        if (fragment == null) {
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.add(this, tag);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
     }
 
     /**

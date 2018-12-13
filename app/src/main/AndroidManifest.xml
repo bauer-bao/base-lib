@@ -30,6 +30,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="UPA_MPA_CHANNELID"
+            android:value="533772qA7Nv"/>
+        <meta-data
+            android:name="UPA_MPA_APPKEY"
+            android:value="J3yyAn"/>
     </application>
 
 </manifest>

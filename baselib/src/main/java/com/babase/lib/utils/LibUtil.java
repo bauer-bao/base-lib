@@ -475,6 +475,11 @@ public class LibUtil {
                 || fileName.toLowerCase().endsWith(".mpg")
                 || fileName.toLowerCase().endsWith(".mpg4")
                 || fileName.toLowerCase().endsWith(".rmvb")
+                || fileName.toLowerCase().endsWith(".vob")
+                || fileName.toLowerCase().endsWith(".swf")
+                || fileName.toLowerCase().endsWith(".flv")
+                || fileName.toLowerCase().endsWith(".rm")
+                || fileName.toLowerCase().endsWith(".mkv")
                 || fileName.toLowerCase().endsWith(".wmv")) {
             return FILE_TYPE_VIDEO;
         } else if (fileName.toLowerCase().endsWith(".m4a")
