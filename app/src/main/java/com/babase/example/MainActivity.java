@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             .show(getSupportFragmentManager(), "bottomsheetdialog");
                 } else {
                     frag.clearItem()
-                            .setTitleStr("title")
+                            .setTitleStr("title3323")
                             .setCancelStr("cancel")
                             .addItem("11", Color.RED)
                             .addItem("22")

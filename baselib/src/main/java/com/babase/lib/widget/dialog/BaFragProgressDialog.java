@@ -152,10 +152,12 @@ public class BaFragProgressDialog extends AppCompatDialogFragment {
     @Override
     public void show(FragmentManager manager, String tag) {
         Fragment fragment = manager.findFragmentByTag(tag);
-        if (fragment == null) {
+        if (fragment == null || !fragment.isVisible()) {
             FragmentTransaction fragmentTransaction = manager.beginTransaction();
             fragmentTransaction.add(this, tag);
             fragmentTransaction.commitAllowingStateLoss();
+        } else {
+            checkContent();
         }
     }
 

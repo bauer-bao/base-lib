@@ -169,6 +169,61 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        updateView();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //如果xml中设置了旋转不重建，则会进入此方法，需要关闭，否则dialog的高度不对
+        dialog = null;
+        dismiss();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //修改成背景透明
+        ((View) rootV.getParent()).setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (listener != null) {
+            listener.onDismiss(tag);
+        }
+    }
+
+    /**
+     * 显示dialog，重写，不然会报Can not perform this action after onSaveInstanceState 错误
+     *
+     * @param tag
+     */
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        Fragment fragment = manager.findFragmentByTag(tag);
+        if (fragment == null || !fragment.isVisible()) {
+            FragmentTransaction fragmentTransaction = manager.beginTransaction();
+            fragmentTransaction.add(this, tag);
+            fragmentTransaction.commitAllowingStateLoss();
+        } else {
+            updateView();
+        }
+    }
+
+    /**
+     * 和show对应
+     */
+    @Override
+    public void dismiss() {
+        dismissAllowingStateLoss();
+    }
+
+    /**
+     * 更新view
+     */
+    private void updateView() {
         itemAdapter.notifyDataSetChanged();
         //设置title
         titleTv.setText(titleStr);
@@ -203,52 +258,6 @@ public class BaBtmMenuFragDialog extends BottomSheetDialogFragment {
         } else {
             bbmdFragCl.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //如果xml中设置了旋转不重建，则会进入此方法，需要关闭，否则dialog的高度不对
-        dialog = null;
-        dismiss();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //修改成背景透明
-        ((View) rootV.getParent()).setBackgroundColor(Color.TRANSPARENT);
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (listener != null) {
-            listener.onDismiss(tag);
-        }
-    }
-
-    /**
-     * 显示dialog，重写，不然会报Can not perform this action after onSaveInstanceState 错误
-     *
-     * @param tag
-     */
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        Fragment fragment = manager.findFragmentByTag(tag);
-        if (fragment == null) {
-            FragmentTransaction fragmentTransaction = manager.beginTransaction();
-            fragmentTransaction.add(this, tag);
-            fragmentTransaction.commitAllowingStateLoss();
-        }
-    }
-
-    /**
-     * 和show对应
-     */
-    @Override
-    public void dismiss() {
-        dismissAllowingStateLoss();
     }
 
     /**
