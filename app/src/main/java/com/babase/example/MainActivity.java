@@ -1,5 +1,6 @@
 package com.babase.example;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         stringArrayList.add("progress dialog");
         stringArrayList.add("bottom sheet dialog");
         stringArrayList.add("notification");
+        stringArrayList.add("rich editor");
 
         Adapter adapter = new Adapter(stringArrayList);
         adapter.setOnItemClickListener((adapter1, view, position) -> {
@@ -164,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (position == 4) {
                 //notification
                 NotificationUtil.showNotification(MainActivity.this, 0, R.drawable.ic_launcher_background, "test", "test", "test", null);
+            } else if (position == 5) {
+                //富文本编辑器
+                Intent intent = new Intent(MainActivity.this, RichEditorActivity.class);
+                startActivity(intent);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

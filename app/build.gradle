@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'org.jsoup:jsoup:1.11.3'
     implementation project(':baselib')
 //    implementation 'com.babase.lib:base-lib:0.0.10'
 //    implementation(name: 'base-lib-0.0.6', ext: 'aar')

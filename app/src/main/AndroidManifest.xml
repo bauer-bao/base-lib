@@ -31,6 +31,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".RichEditorActivity"/>
+
         <meta-data
             android:name="UPA_MPA_CHANNELID"
             android:value="533772qA7Nv"/>

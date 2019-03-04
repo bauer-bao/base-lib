@@ -100,6 +100,15 @@ public class BaEmptyErrorView extends LinearLayout {
     }
 
     /**
+     * 图片是否可见
+     *
+     * @param visible
+     */
+    public void setImageVisible(int visible) {
+        widgetEmptyErrorIv.setVisibility(visible);
+    }
+
+    /**
      * 设置按钮颜色，文字，背景色
      *
      * @param btnMsg
