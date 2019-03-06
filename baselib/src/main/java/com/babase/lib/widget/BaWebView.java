@@ -3,8 +3,6 @@ package com.babase.lib.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -141,8 +139,15 @@ public class BaWebView extends WebView {
         this.setWebViewClient(new WebViewClient() {
 
             @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                Logger.d("load error------> ");
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Logger.d("load error------> " + errorCode + "---" + description + "----" + failingUrl);
+                if (errorCode == -6) {
+                    //有些网址会返回-6，但是实际网页已经加载成功，所以忽略，不处理
+                    //-2---net::ERR_INTERNET_DISCONNECTED
+                    //-10---net::ERR_UNKNOWN_URL_SCHEME
+                    //-6---net::ERR_CONNECTION_REFUSED
+                    return;
+                }
                 loadFailed = true;
                 if (myWebviewImp != null) {
                     myWebviewImp.loadFailed();
