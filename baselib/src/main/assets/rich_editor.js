@@ -239,7 +239,11 @@ RE.enabledEditingItems = function(e) {
     var type = dom.getAttribute('type');
     if (type == 'checkbox'){
        var checked = dom.checked;
-       dom.setAttribute("checked",checked);
+       if(checked) {
+            dom.setAttribute("checked", checked);
+       } else {
+            dom.removeAttribute("checked");
+       }
        return;
     }
     var items = [];
