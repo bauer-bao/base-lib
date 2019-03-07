@@ -235,6 +235,13 @@ RE.restorerange = function(){
 }
 
 RE.enabledEditingItems = function(e) {
+    var dom = e.target;
+    var type = dom.getAttribute('type');
+    if (type == 'checkbox'){
+       var checked = dom.checked;
+       dom.setAttribute("checked",checked);
+       return;
+    }
     var items = [];
     if (document.queryCommandState('bold')) {
         items.push('bold');

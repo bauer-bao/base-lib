@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.babase.lib.utils.Logger;
 import com.babase.lib.widget.BaRichEditor;
 
 import org.jsoup.Jsoup;
@@ -12,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RichEditorActivity extends AppCompatActivity {
 
@@ -32,6 +34,20 @@ public class RichEditorActivity extends AppCompatActivity {
         //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
         mEditor.setPlaceholder("Insert text here...");
         //mEditor.setInputEnabled(false);
+
+        mEditor.setOnTextChangeListener(new BaRichEditor.OnTextChangeListener() {
+            @Override
+            public void onTextChange(String text) {
+                Logger.d("test--->" + text);
+            }
+        });
+
+        mEditor.setOnDecorationChangeListener(new BaRichEditor.OnDecorationStateListener() {
+            @Override
+            public void onStateChangeListener(String text, List<BaRichEditor.Type> types) {
+                Logger.d("test--->" + text);
+            }
+        });
 
         findViewById(R.id.action_undo).setOnClickListener(v -> mEditor.undo());
         findViewById(R.id.action_redo).setOnClickListener(v -> mEditor.redo());
